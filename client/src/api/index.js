@@ -12,7 +12,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-// user api end point
+// user API end point
 export const addUser = (newUser) => API.post("/users", newUser);
 
 export const signupWithGoogle = (newUser) =>
@@ -26,5 +26,8 @@ export const getUser = (id) => API.get(`/users/${id}`);
 export const changePassword = (id, state) =>
   API.patch(`/users/change-password/${id}`, state);
 
-// auth end point
+// auth API end point
 export const login = (userCredential) => API.post("/auth", userCredential);
+
+// teacher API end point
+export const getTeachers = () => API.get("/teachers");

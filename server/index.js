@@ -8,6 +8,7 @@ require("./config/dbConfig")();
 
 const userRoute = require("./routes/user");
 const authRouter = require("./routes/auth");
+const teacherRouter = require("./routes/teacher");
 
 const ALLOWED_ORIGIN_LIST = [
   process.env.ALLOWED_ORIGIN_1,
@@ -28,8 +29,9 @@ app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use("/static", express.static("public"));
 
-app.use("/users", userRoute);
 app.use("/auth", authRouter);
+app.use("/users", userRoute);
+app.use("/teachers", teacherRouter);
 
 app.use((err, req, res, next) => {
   if (err) {

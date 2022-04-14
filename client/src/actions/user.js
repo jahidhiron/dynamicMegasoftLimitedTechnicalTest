@@ -76,8 +76,6 @@ export const changePassword = (id, state) => async (dispatch) => {
     const { data } = await api.changePassword(id, state);
     dispatch(changePasswordSuccess(data));
   } catch (error) {
-    console.log(error.response);
-
     if (error?.response?.data?.errors) {
       dispatch(
         changePasswordFailure({
