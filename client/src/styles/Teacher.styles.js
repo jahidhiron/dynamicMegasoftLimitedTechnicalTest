@@ -21,8 +21,8 @@ export const Title = styled.span`
   font-size: 30px;
   color: var(--main-color);
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin-top: 0px;
+  margin-bottom: 10px;
   display: block;
 `;
 
@@ -54,7 +54,7 @@ export const Th = styled.th`
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
-  font-size: 11px;
+  font-size: 12px;
 `;
 
 export const Td = styled.td`
@@ -63,4 +63,50 @@ export const Td = styled.td`
   padding: 8px;
   margin-bottom: 10px;
   font-size: 11px;
+`;
+
+export const PaginationContainer = styled.div`
+  width: 80%;
+  margin: 20px auto;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Movement = styled.button`
+  cursor: pointer;
+  border: 1px solid var(--main-color);
+  padding: 3px;
+  border-radius: 6px;
+  transition: all 0.4s ease;
+  margin-right: 20px;
+
+  &:hover {
+    background-color: var(--main-color);
+    color: white;
+  }
+`;
+
+export const PageNumber = styled.button`
+  cursor: pointer;
+  border: 1px solid var(--main-color);
+  padding: 3px;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  margin-right: 20px;
+
+  &:hover {
+    background-color: var(--main-color);
+    color: white;
+  }
 `;

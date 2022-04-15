@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { DeleteOutline, Block } from "@material-ui/icons";
 
 import { Container, MainContent } from "../styles/Home.styles";
 import {
@@ -12,22 +13,41 @@ import {
   Title,
   Thead,
   Tbody,
-  Delete,
+  PaginationContainer,
+  PaginationWrapper,
+  Movement,
+  PageNumber,
 } from "../styles/Teacher.styles";
 import LeftBar from "../components/LeftBar";
 import ShowProfileFirstTime from "./ShowProfileFirstTime";
 import { getTeachers } from "../actions/teacher";
+import classes from "../styles/Teacher.module.css";
 
 const Teacher = () => {
   const localStorageData = JSON.parse(localStorage.getItem("profile"));
   const { style } = useSelector((state) => state.style);
   const { teacher } = useSelector((state) => state.teacher);
+  const [page, setPage] = useState([]);
   const dispatch = useDispatch();
+
+  console.log(teacher);
 
   useEffect(() => {
     dispatch(getTeachers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setPage([]);
+
+    for (let i = 1; i < teacher.totalPage + 1; i++) {
+      setPage((prev) => [...prev, i]);
+    }
+  }, [teacher.totalPage]);
+
+  const handlePagination = () => {
+    console.log("no");
+  };
 
   return (
     <Container>
@@ -51,14 +71,14 @@ const Teacher = () => {
                       <Th>City</Th>
                       <Th>Country</Th>
                       <Th>Is Ban</Th>
-                      <Th>First Login</Th>
+                      <Th>Profile</Th>
                       <Th>Action</Th>
                     </Tr>
                   </Thead>
 
                   <Tbody>
-                    {teacher.length &&
-                      teacher.map((t) => (
+                    {teacher?.teachers?.length &&
+                      teacher.teachers.map((t) => (
                         <Tr key={t._id}>
                           <Td>{t.userId}</Td>
                           <Td>{t.name}</Td>
@@ -70,26 +90,71 @@ const Teacher = () => {
                           <Td>{t.country}</Td>
                           <Td
                             style={{
-                              color: t.isBan ? "#a39505" : "green",
-                              cursor: "pointer",
+                              color: t.isBan ? "#F7B217" : "green",
                             }}
                           >
                             {t.isBan ? "Yes" : "No"}
                           </Td>
                           <Td
                             style={{
-                              color: t.isFirstLogin ? "#a39505" : "green",
+                              color: t.isFirstLogin ? "#F7B217" : "green",
                             }}
                           >
-                            {t.isFirstLogin ? "Yes" : "No"}
+                            {t.isFirstLogin ? "Obsolete" : "Updated"}
                           </Td>
-                          <Td style={{ cursor: "pointer" }}>Delete</Td>
+                          <Td
+                            style={{
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              border: "none",
+                            }}
+                          >
+                            <Block
+                              style={{ color: "#F7B217", marginRight: "15px" }}
+                            />
+                            <DeleteOutline style={{ color: "red" }} />
+                          </Td>
                         </Tr>
                       ))}
                   </Tbody>
                 </Table>
               </ViewTeacherWrapper>
             </TeacherWrapper>
+            <PaginationContainer>
+              <PaginationWrapper>
+                <Movement
+                  disabled={teacher?.currentPage ? true : false}
+                  onClick={handlePagination}
+                  className={teacher?.currentPage ? classes.Movement : ""}
+                >
+                  Prev
+                </Movement>
+              </PaginationWrapper>
+
+              <PaginationWrapper>
+                {page.map((p, i) => (
+                  <PageNumber key={i}>{p}</PageNumber>
+                ))}
+              </PaginationWrapper>
+
+              <PaginationWrapper>
+                <Movement
+                  disabled={
+                    teacher?.currentPage === teacher?.totalPage ? true : false
+                  }
+                  onClick={handlePagination}
+                  className={
+                    teacher?.currentPage === teacher?.totalPage
+                      ? classes.Movement
+                      : ""
+                  }
+                >
+                  Next
+                </Movement>
+              </PaginationWrapper>
+            </PaginationContainer>
           </MainContent>
         </>
       )}
