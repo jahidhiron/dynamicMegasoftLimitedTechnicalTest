@@ -1,16 +1,16 @@
 const User = require("../models/User");
 
-// get all teachers
-const getTeachers = async (req, res) => {
+// get all students
+const getStudents = async (req, res) => {
   try {
     const { size, page, search } = req.query;
     const pageNum = parseInt(page) || 1;
     const limit = parseInt(size) || 10;
 
-    const totalTeacher = await User.countDocuments({ role: "teacher" });
-    const totalPage = Math.ceil(totalTeacher / limit);
+    const totalStudent = await User.countDocuments({ role: "student" });
+    const totalPage = Math.ceil(totalStudent / limit);
 
-    let query = { role: "teacher" };
+    let query = { role: "student" };
 
     if (search !== "undefined") {
       let regex = new RegExp(search, "i");
@@ -27,7 +27,7 @@ const getTeachers = async (req, res) => {
       };
     }
 
-    const teachers = await User.find(query)
+    const students = await User.find(query)
       .select("-password, -__v, -googleId, -role, ")
       .sort({ _id: -1 })
       .skip((pageNum - 1) * limit)
@@ -35,7 +35,7 @@ const getTeachers = async (req, res) => {
       .lean();
 
     const data = {
-      teachers,
+      students,
       currentPage: Number(pageNum),
       totalPage,
     };
@@ -46,17 +46,17 @@ const getTeachers = async (req, res) => {
   }
 };
 
-// search teacher
-const searchTeacher = async (req, res) => {
+// search student
+const searchStudent = async (req, res) => {
   try {
     const { size, page } = req.query;
     const pageNum = parseInt(page) || 1;
     const limit = parseInt(size) || 10;
 
-    const totalTeacher = await User.countDocuments({ role: "teacher" });
-    const totalPage = Math.ceil(totalTeacher / limit);
+    const totalStudent = await User.countDocuments({ role: "student" });
+    const totalPage = Math.ceil(totalStudent / limit);
 
-    const teachers = await User.find({ role: "teacher" })
+    const students = await User.find({ role: "student" })
       .select("-password, -__v, -googleId, -role, ")
       .sort({ _id: -1 })
       .skip((pageNum - 1) * limit)
@@ -64,7 +64,7 @@ const searchTeacher = async (req, res) => {
       .lean();
 
     const data = {
-      teachers,
+      students,
       currentPage: Number(pageNum),
       totalPage,
     };
@@ -75,41 +75,41 @@ const searchTeacher = async (req, res) => {
   }
 };
 
-// ban teacher
-const banTeacher = async (req, res) => {
+// ban student
+const banStudent = async (req, res) => {
   try {
     const { id: _id } = req.params;
 
-    const teacher = await User.findById(_id);
-    if (!teacher) {
-      return res.status(404).json({ message: "No teacher data found!" });
+    const student = await User.findById(_id);
+    if (!student) {
+      return res.status(404).json({ message: "No student data found!" });
     }
 
-    teacher.isBan = !teacher.isBan;
-    await teacher.save();
+    student.isBan = !student.isBan;
+    await student.save();
 
     res.status(200).json({
-      message: `Teacher has been ${
-        teacher.isBan ? "banned" : "unbanned"
+      message: `Student has been ${
+        student.isBan ? "banned" : "unbanned"
       } successully!`,
-      status: teacher.isBan,
+      status: student.isBan,
     });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
 };
 
-// delete teacher
-const deleteTeacher = async (req, res) => {
+// delete student
+const deleteStudent = async (req, res) => {
   try {
     const { id: _id } = req.params;
 
     User.findByIdAndDelete(_id, (err, docs) => {
       if (err) {
-        return res.status(404).json({ message: "No teacher data found!" });
+        return res.status(404).json({ message: "No student data found!" });
       } else {
         res.status(200).json({
-          message: `Teacher has been deleted successully!`,
+          message: `Student has been deleted successully!`,
           deleteStatus: true,
         });
       }
@@ -119,25 +119,25 @@ const deleteTeacher = async (req, res) => {
   }
 };
 
-// active teacher
-const activeTeacher = async (req, res) => {
+// active student
+const activeStudent = async (req, res) => {
   try {
     const { id: _id } = req.params;
 
-    const teacher = await User.findById(_id);
-    if (!teacher) {
-      return res.status(404).json({ message: "No teacher data found!" });
+    const student = await User.findById(_id);
+    if (!student) {
+      return res.status(404).json({ message: "No student data found!" });
     }
 
-    if (teacher.status === "active") {
-      return res.status(404).json({ message: "Teacher is already active!" });
+    if (student.status === "active") {
+      return res.status(404).json({ message: "Student is already active!" });
     }
 
-    teacher.status = "active";
-    await teacher.save();
+    student.status = "active";
+    await student.save();
 
     res.status(200).json({
-      message: `Teacher has been activated successully!`,
+      message: `Student has been activated successully!`,
       activeStatus: true,
     });
   } catch (error) {
@@ -146,9 +146,9 @@ const activeTeacher = async (req, res) => {
 };
 
 module.exports = {
-  getTeachers,
-  searchTeacher,
-  banTeacher,
-  activeTeacher,
-  deleteTeacher,
+  getStudents,
+  searchStudent,
+  banStudent,
+  activeStudent,
+  deleteStudent,
 };

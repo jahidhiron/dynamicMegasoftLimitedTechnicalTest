@@ -9,6 +9,7 @@ require("./config/dbConfig")();
 const userRoute = require("./routes/user");
 const authRouter = require("./routes/auth");
 const teacherRouter = require("./routes/teacher");
+const studentRouter = require("./routes/student");
 
 const ALLOWED_ORIGIN_LIST = [
   process.env.ALLOWED_ORIGIN_1,
@@ -32,6 +33,7 @@ app.use("/static", express.static("public"));
 app.use("/auth", authRouter);
 app.use("/users", userRoute);
 app.use("/teachers", teacherRouter);
+app.use("/students", studentRouter);
 
 app.use((err, req, res, next) => {
   if (err) {
