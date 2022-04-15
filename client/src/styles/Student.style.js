@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TeacherWrapper = styled.div`
+export const StudentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +18,7 @@ export const Title = styled.span`
   display: block;
 `;
 
-export const ViewTeacherWrapper = styled.div`
+export const ViewStudentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
