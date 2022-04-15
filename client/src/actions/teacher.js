@@ -6,6 +6,9 @@ import {
   bannedTeacherStart,
   bannedTeacherSuccess,
   bannedTeacherFailure,
+  activeTeacherStart,
+  activeTeacherSuccess,
+  activeTeacherFailure,
   deleteTeacherStart,
   deleteTeacherSuccess,
   deleteTeacherFailure,
@@ -46,6 +49,24 @@ export const bannedTeacher = (id) => async (dispatch) => {
   }
 };
 
+// action creator for banned teacher
+export const activeTeacher = (id) => async (dispatch) => {
+  try {
+    dispatch(activeTeacherStart());
+
+    const { data } = await api.activeTeacher(id);
+
+    dispatch(activeTeacherSuccess(data));
+  } catch (error) {
+    dispatch(
+      activeTeacherFailure({
+        message: error?.response?.data?.message,
+        activeStatus: error?.response?.data?.activeStatus,
+      })
+    );
+  }
+};
+
 // action creator for delete teacher
 export const deleteTeacher = (id) => async (dispatch) => {
   try {
@@ -58,6 +79,7 @@ export const deleteTeacher = (id) => async (dispatch) => {
     dispatch(
       deleteTeacherFailure({
         message: error?.response?.data?.message,
+        deleteStatus: error?.response?.data?.deleteStatus,
       })
     );
   }

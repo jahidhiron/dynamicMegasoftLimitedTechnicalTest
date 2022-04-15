@@ -35,4 +35,6 @@ export const getTeachers = (size, page, search) =>
 
 export const bannedTeacher = (id) => API.patch(`/teachers/banned/${id}`);
 
+export const activeTeacher = (id) => API.patch(`/teachers/active/${id}`);
+
 export const deleteTeacher = (id) => API.delete(`/teachers/${id}`);

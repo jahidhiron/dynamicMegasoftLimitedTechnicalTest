@@ -116,9 +116,35 @@ const deleteTeacher = async (req, res) => {
   }
 };
 
+const activeTeacher = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+
+    const teacher = await User.findById(_id);
+    if (!teacher) {
+      return res.status(404).json({ message: "No teacher data found!" });
+    }
+
+    if (teacher.status === "active") {
+      return res.status(404).json({ message: "Teacher is already active!" });
+    }
+
+    teacher.status = "active";
+    await teacher.save();
+
+    res.status(200).json({
+      message: `Teacher has been activated successully!`,
+      activeStatus: true,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
 module.exports = {
   getTeachers,
   searchTeacher,
   banTeacher,
+  activeTeacher,
   deleteTeacher,
 };

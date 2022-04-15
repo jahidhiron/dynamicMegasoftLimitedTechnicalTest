@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DeleteOutline, Block } from "@material-ui/icons";
+import { DeleteOutline, Block, Check } from "@material-ui/icons";
 import FlashMessage from "react-flash-message";
 import Popup from "reactjs-popup";
 
@@ -29,13 +29,18 @@ import {
 } from "../styles/Teacher.styles";
 import LeftBar from "../components/LeftBar";
 import ShowProfileFirstTime from "./ShowProfileFirstTime";
-import { getTeachers, bannedTeacher, deleteTeacher } from "../actions/teacher";
+import {
+  getTeachers,
+  bannedTeacher,
+  activeTeacher,
+  deleteTeacher,
+} from "../actions/teacher";
 import classes from "../styles/Teacher.module.css";
 
 const Teacher = () => {
   const localStorageData = JSON.parse(localStorage.getItem("profile"));
   const { style } = useSelector((state) => state.style);
-  const { teacher } = useSelector((state) => state.teacher);
+  const { teacher, errors } = useSelector((state) => state.teacher);
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState([]);
   const dispatch = useDispatch();
@@ -106,6 +111,15 @@ const Teacher = () => {
     }, 3000);
   };
 
+  const handleActiveTeacher = async (e, id) => {
+    await dispatch(activeTeacher(id));
+
+    setTimeout(async () => {
+      await dispatch(getTeachers(pageSize, teacher?.currentPage));
+    }, 3000);
+  };
+
+  console.log(errors);
   return (
     <Container>
       <ShowProfileFirstTime />
@@ -130,6 +144,19 @@ const Teacher = () => {
                 </P>
               </FlashMessage>
             )}
+            {errors?.message && (
+              <FlashMessage duration={5000} persistOnHover={true}>
+                <P
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                    marginBottom: "20px",
+                  }}
+                >
+                  {errors?.message}
+                </P>
+              </FlashMessage>
+            )}
             <Title>All Teachers Information</Title>
             <Search
               name="searchText"
@@ -151,6 +178,7 @@ const Teacher = () => {
                       <Th>Permanent Address</Th>
                       <Th>City</Th>
                       <Th>Country</Th>
+                      <Th>Status</Th>
                       <Th>Is Ban</Th>
                       <Th>Profile</Th>
                       <Th>Action</Th>
@@ -169,6 +197,14 @@ const Teacher = () => {
                             <Td>{t.permanentAddress}</Td>
                             <Td>{t.city}</Td>
                             <Td>{t.country}</Td>
+                            <Td
+                              style={{
+                                color:
+                                  t.status === "active" ? "green" : "#F7B217",
+                              }}
+                            >
+                              {t.status}
+                            </Td>
                             <Td
                               style={{
                                 color: t.isBan ? "#F7B217" : "green",
@@ -192,6 +228,49 @@ const Teacher = () => {
                                 border: "none",
                               }}
                             >
+                              {/* active teacher */}
+                              <Popup
+                                trigger={
+                                  <Check
+                                    style={{
+                                      color:
+                                        t.status === "active"
+                                          ? "green"
+                                          : "#F7B217",
+                                      marginRight: "15px",
+                                    }}
+                                  />
+                                }
+                                position="left center"
+                              >
+                                <PopupMessage>
+                                  <P
+                                    style={{
+                                      textAlign: "center",
+                                      color: "#666",
+                                    }}
+                                  >
+                                    Are you sure you want to{" "}
+                                    {t.status === "inactive"
+                                      ? "active"
+                                      : "inactive"}{" "}
+                                    this teacher?
+                                  </P>
+                                  <ButtonWrapper>
+                                    <Button
+                                      style={{
+                                        border: "1px solid #F7B217",
+                                        color: "#F7B217",
+                                      }}
+                                      onClick={(e) =>
+                                        handleActiveTeacher(e, t._id)
+                                      }
+                                    >
+                                      Confirm
+                                    </Button>
+                                  </ButtonWrapper>
+                                </PopupMessage>
+                              </Popup>
                               {/* banned teacher */}
                               <Popup
                                 trigger={
@@ -212,7 +291,7 @@ const Teacher = () => {
                                     }}
                                   >
                                     Are you sure you want to{" "}
-                                    {t.isBan ? "active" : "ban"} this teacher?
+                                    {t.isBan ? "unban" : "ban"} this teacher?
                                   </P>
                                   <ButtonWrapper>
                                     <Button

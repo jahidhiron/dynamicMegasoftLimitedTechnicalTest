@@ -5,11 +5,13 @@ const {
   searchTeacher,
   banTeacher,
   deleteTeacher,
+  activeTeacher,
 } = require("../controllers/teacher");
 const isAuthentication = require("../middlewares/auth/index");
 const {
   banTeacherValidator,
   deleteTeacherValidator,
+  activeTeacherValidator,
 } = require("../middlewares/validators/teacher");
 const { validationResults } = require("../middlewares/validators/results");
 
@@ -24,6 +26,14 @@ router.patch(
   banTeacherValidator,
   validationResults,
   banTeacher
+);
+
+router.patch(
+  "/active/:id",
+  isAuthentication,
+  activeTeacherValidator,
+  validationResults,
+  activeTeacher
 );
 
 router.delete(
