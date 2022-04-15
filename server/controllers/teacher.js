@@ -5,7 +5,7 @@ const getTeachers = async (req, res) => {
   try {
     const { size, page } = req.query;
     const pageNum = parseInt(page) || 1;
-    const limit = parseInt(size) || 3;
+    const limit = parseInt(size) || 10;
 
     const totalTeacher = await User.countDocuments({ role: "teacher" });
     const totalPage = Math.ceil(totalTeacher / limit);
@@ -25,7 +25,6 @@ const getTeachers = async (req, res) => {
 
     res.status(200).json(data);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Something went wrong!" });
   }
 };

@@ -110,3 +110,17 @@ export const PageNumber = styled.button`
     color: white;
   }
 `;
+
+export const Input = styled.input`
+  width: 30px;
+  height: 20px;
+  border: 1px solid var(--main-color);
+  text-align: center;
+`;
+
+export const Label = styled.label`
+  margin-right: 10px;
+  margin-left: 10px;
+`;
+
+export const Form = styled.form``;

@@ -6,11 +6,11 @@ import {
 } from "../reducers/teacher";
 
 // action creator get teachers
-export const getTeachers = () => async (dispatch) => {
+export const getTeachers = (size, page) => async (dispatch) => {
   try {
     dispatch(getTeachersStart());
 
-    const { data } = await api.getTeachers();
+    const { data } = await api.getTeachers(size, page);
 
     dispatch(getTeachersSuccess(data));
   } catch (error) {

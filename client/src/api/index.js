@@ -30,4 +30,5 @@ export const changePassword = (id, state) =>
 export const login = (userCredential) => API.post("/auth", userCredential);
 
 // teacher API end point
-export const getTeachers = () => API.get("/teachers");
+export const getTeachers = (size, page) =>
+  API.get(`/teachers?size=${size}&page=${page}`);

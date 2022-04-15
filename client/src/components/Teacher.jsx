@@ -17,6 +17,8 @@ import {
   PaginationWrapper,
   Movement,
   PageNumber,
+  Input,
+  Label,
 } from "../styles/Teacher.styles";
 import LeftBar from "../components/LeftBar";
 import ShowProfileFirstTime from "./ShowProfileFirstTime";
@@ -28,12 +30,11 @@ const Teacher = () => {
   const { style } = useSelector((state) => state.style);
   const { teacher } = useSelector((state) => state.teacher);
   const [page, setPage] = useState([]);
+  const [pageSize, setPageSize] = useState(10);
   const dispatch = useDispatch();
 
-  console.log(teacher);
-
   useEffect(() => {
-    dispatch(getTeachers());
+    dispatch(getTeachers(10, 1));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -45,8 +46,21 @@ const Teacher = () => {
     }
   }, [teacher.totalPage]);
 
-  const handlePagination = () => {
-    console.log("no");
+  useEffect(() => {
+    dispatch(getTeachers(pageSize, teacher?.currentPage));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageSize]);
+
+  const handlePagination = async (e, p) => {
+    await dispatch(getTeachers(pageSize, p));
+  };
+
+  const handlePagePrev = async (e, page) => {
+    await dispatch(getTeachers(pageSize, page - 1));
+  };
+
+  const handlePageNext = async (e, page) => {
+    await dispatch(getTeachers(pageSize, page + 1));
   };
 
   return (
@@ -125,9 +139,10 @@ const Teacher = () => {
             <PaginationContainer>
               <PaginationWrapper>
                 <Movement
-                  disabled={teacher?.currentPage ? true : false}
-                  onClick={handlePagination}
-                  className={teacher?.currentPage ? classes.Movement : ""}
+                  disabled={teacher?.currentPage === 1 ? true : false}
+                  onClick={(e) => handlePagePrev(e, teacher?.currentPage)}
+                  className={teacher?.currentPage === 1 ? classes.Movement : ""}
+                  type="submit"
                 >
                   Prev
                 </Movement>
@@ -135,7 +150,16 @@ const Teacher = () => {
 
               <PaginationWrapper>
                 {page.map((p, i) => (
-                  <PageNumber key={i}>{p}</PageNumber>
+                  <PageNumber
+                    key={i}
+                    onClick={(e) => handlePagination(e, p)}
+                    type="submit"
+                    className={
+                      teacher?.currentPage === p && classes.CurrentPage
+                    }
+                  >
+                    {p}
+                  </PageNumber>
                 ))}
               </PaginationWrapper>
 
@@ -144,15 +168,26 @@ const Teacher = () => {
                   disabled={
                     teacher?.currentPage === teacher?.totalPage ? true : false
                   }
-                  onClick={handlePagination}
+                  onClick={(e) => handlePageNext(e, teacher?.currentPage)}
                   className={
                     teacher?.currentPage === teacher?.totalPage
                       ? classes.Movement
                       : ""
                   }
+                  type="submit"
                 >
                   Next
                 </Movement>
+              </PaginationWrapper>
+
+              <PaginationWrapper>
+                <Label>Limit</Label>
+                <Input
+                  type="text"
+                  name="pageSize"
+                  value={pageSize}
+                  onChange={(e) => setPageSize(e.target.value)}
+                />
               </PaginationWrapper>
             </PaginationContainer>
           </MainContent>
