@@ -12,6 +12,15 @@ import {
   deleteTeacherStart,
   deleteTeacherSuccess,
   deleteTeacherFailure,
+  getRecentTeachersStart,
+  getRecentTeachersSuccess,
+  getRecentTeachersFailure,
+  getUnprofileTeachersStart,
+  getUnprofileTeachersSuccess,
+  getUnprofileTeachersFailure,
+  getBanTeachersStart,
+  getBanTeachersSuccess,
+  getBanTeachersFailure,
 } from "../reducers/teacher";
 
 // action creator for get teachers
@@ -25,6 +34,57 @@ export const getTeachers = (size, page, search) => async (dispatch) => {
   } catch (error) {
     dispatch(
       getTeachersFailure({
+        message: error?.response?.data?.message,
+      })
+    );
+  }
+};
+
+// action creator for get recent teacher
+export const getRecentTeachers = () => async (dispatch) => {
+  try {
+    dispatch(getRecentTeachersStart());
+
+    const { data } = await api.getRecentTeachers();
+
+    dispatch(getRecentTeachersSuccess(data));
+  } catch (error) {
+    dispatch(
+      getRecentTeachersFailure({
+        message: error?.response?.data?.message,
+      })
+    );
+  }
+};
+
+// action creator for get unprofile teacher
+export const getUnprofileTeachers = () => async (dispatch) => {
+  try {
+    dispatch(getUnprofileTeachersStart());
+
+    const { data } = await api.getUnprofileTeachers();
+
+    dispatch(getUnprofileTeachersSuccess(data));
+  } catch (error) {
+    dispatch(
+      getUnprofileTeachersFailure({
+        message: error?.response?.data?.message,
+      })
+    );
+  }
+};
+
+// action creator for get ban teacher
+export const getBanTeachers = () => async (dispatch) => {
+  try {
+    dispatch(getBanTeachersStart());
+
+    const { data } = await api.getBanTeachers();
+
+    dispatch(getBanTeachersSuccess(data));
+  } catch (error) {
+    dispatch(
+      getBanTeachersFailure({
         message: error?.response?.data?.message,
       })
     );

@@ -23,11 +23,11 @@ router.get("/", isAuthentication, getTeachers);
 
 router.get("/search", isAuthentication, searchTeacher);
 
-router.get("/recent-student", isAuthentication, getRecentTeachers);
+router.get("/recent-teacher", isAuthentication, getRecentTeachers);
 
-router.get("/unprofile-student", isAuthentication, getUnprofileTeachers);
+router.get("/unprofile-teacher", isAuthentication, getUnprofileTeachers);
 
-router.get("/ban-student", isAuthentication, getBanTeachers);
+router.get("/ban-teacher", isAuthentication, getBanTeachers);
 
 router.patch(
   "/banned/:id",

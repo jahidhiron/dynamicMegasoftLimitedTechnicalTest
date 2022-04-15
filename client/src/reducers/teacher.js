@@ -5,6 +5,9 @@ export const teacher = createSlice({
   initialState: {
     isLoading: false,
     teacher: {},
+    recentTeacher: [],
+    banTeacher: [],
+    unprofileTeacher: [],
     errors: false,
     isSuccess: false,
   },
@@ -19,6 +22,51 @@ export const teacher = createSlice({
       state.teacher = action?.payload;
     },
     getTeachersFailure: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.errors = action?.payload;
+    },
+
+    // get recent teacher
+    getRecentTeachersStart: (state) => {
+      state.isLoading = true;
+    },
+    getRecentTeachersSuccess: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.recentTeacher = action?.payload;
+    },
+    getRecentTeachersFailure: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.errors = action?.payload;
+    },
+
+    // get unprofile teacher
+    getUnprofileTeachersStart: (state) => {
+      state.isLoading = true;
+    },
+    getUnprofileTeachersSuccess: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.unprofileTeacher = action?.payload;
+    },
+    getUnprofileTeachersFailure: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.errors = action?.payload;
+    },
+
+    // get ban teacher
+    getBanTeachersStart: (state) => {
+      state.isLoading = true;
+    },
+    getBanTeachersSuccess: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.banTeacher = action?.payload;
+    },
+    getBanTeachersFailure: (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.errors = action?.payload;
@@ -84,6 +132,15 @@ export const {
   deleteTeacherStart,
   deleteTeacherSuccess,
   deleteTeacherFailure,
+  getRecentTeachersStart,
+  getRecentTeachersSuccess,
+  getRecentTeachersFailure,
+  getUnprofileTeachersStart,
+  getUnprofileTeachersSuccess,
+  getUnprofileTeachersFailure,
+  getBanTeachersStart,
+  getBanTeachersSuccess,
+  getBanTeachersFailure,
 } = teacher.actions;
 
 export default teacher.reducer;
