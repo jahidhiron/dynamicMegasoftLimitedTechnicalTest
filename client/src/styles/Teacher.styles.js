@@ -42,7 +42,9 @@ export const Table = styled.table`
 
 export const Thead = styled.thead``;
 
-export const Tbody = styled.tbody``;
+export const Tbody = styled.tbody`
+  /* position: relative; */
+`;
 
 export const Tr = styled.tr`
   &:nth-child(even) {
@@ -128,4 +130,34 @@ export const Search = styled.input`
   padding: 3px 10px;
   margin-bottom: 20px;
   margin-left: 2.5%;
+`;
+
+export const PopupMessage = styled.div`
+  width: 200px;
+  height: 150px;
+  border: 1px solid var(--main-color);
+  margin: 0 auto;
+  /* position: absolute; */
+  /* right: 100%; */
+  /* bottom: 100%; */
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+`;
+
+export const P = styled.p`
+  display: block;
+`;
+
+export const ButtonWrapper = styled.div`
+  margin-top: 20px;
+`;
+
+export const Button = styled.button`
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
 `;

@@ -38,6 +38,21 @@ export const teacher = createSlice({
       state.isSuccess = false;
       state.errors = action?.payload;
     },
+
+    // delete teacher
+    deleteTeacherStart: (state) => {
+      state.isLoading = true;
+    },
+    deleteTeacherSuccess: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.teacher = action?.payload;
+    },
+    deleteTeacherFailure: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.errors = action?.payload;
+    },
   },
 });
 
@@ -48,6 +63,9 @@ export const {
   bannedTeacherStart,
   bannedTeacherSuccess,
   bannedTeacherFailure,
+  deleteTeacherStart,
+  deleteTeacherSuccess,
+  deleteTeacherFailure,
 } = teacher.actions;
 
 export default teacher.reducer;

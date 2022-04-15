@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteOutline, Block } from "@material-ui/icons";
 import FlashMessage from "react-flash-message";
+import Popup from "reactjs-popup";
 
 import { Container, MainContent } from "../styles/Home.styles";
 import {
@@ -21,10 +22,14 @@ import {
   Input,
   Label,
   Search,
+  PopupMessage,
+  P,
+  ButtonWrapper,
+  Button,
 } from "../styles/Teacher.styles";
 import LeftBar from "../components/LeftBar";
 import ShowProfileFirstTime from "./ShowProfileFirstTime";
-import { getTeachers, bannedTeacher } from "../actions/teacher";
+import { getTeachers, bannedTeacher, deleteTeacher } from "../actions/teacher";
 import classes from "../styles/Teacher.module.css";
 
 const Teacher = () => {
@@ -93,6 +98,14 @@ const Teacher = () => {
     }, 3000);
   };
 
+  const handleDeleteTeacher = async (e, id) => {
+    await dispatch(deleteTeacher(id));
+
+    setTimeout(async () => {
+      await dispatch(getTeachers(pageSize, teacher?.currentPage));
+    }, 3000);
+  };
+
   return (
     <Container>
       <ShowProfileFirstTime />
@@ -102,15 +115,19 @@ const Teacher = () => {
           <MainContent toggle={style.sidebar}>
             {teacher?.message && (
               <FlashMessage duration={5000} persistOnHover={true}>
-                <p
+                <P
                   style={{
-                    color: teacher?.status ? "#F7B217" : "green",
+                    color: teacher?.status
+                      ? "#F7B217"
+                      : teacher?.deleteStatus
+                      ? "red"
+                      : "green",
                     textAlign: "center",
                     marginBottom: "20px",
                   }}
                 >
                   {teacher?.message}
-                </p>
+                </P>
               </FlashMessage>
             )}
             <Title>All Teachers Information</Title>
@@ -174,15 +191,77 @@ const Teacher = () => {
                                 justifyContent: "center",
                                 border: "none",
                               }}
-                              onClick={(e) => handleBannedTeacher(e, t._id)}
                             >
-                              <Block
-                                style={{
-                                  color: "#F7B217",
-                                  marginRight: "15px",
-                                }}
-                              />
-                              <DeleteOutline style={{ color: "red" }} />
+                              {/* banned teacher */}
+                              <Popup
+                                trigger={
+                                  <Block
+                                    style={{
+                                      color: "#F7B217",
+                                      marginRight: "15px",
+                                    }}
+                                  />
+                                }
+                                position="left center"
+                              >
+                                <PopupMessage>
+                                  <P
+                                    style={{
+                                      textAlign: "center",
+                                      color: "#666",
+                                    }}
+                                  >
+                                    Are you sure you want to{" "}
+                                    {t.isBan ? "active" : "ban"} this teacher?
+                                  </P>
+                                  <ButtonWrapper>
+                                    <Button
+                                      style={{
+                                        border: "1px solid #F7B217",
+                                        color: "#F7B217",
+                                      }}
+                                      onClick={(e) =>
+                                        handleBannedTeacher(e, t._id)
+                                      }
+                                    >
+                                      Confirm
+                                    </Button>
+                                  </ButtonWrapper>
+                                </PopupMessage>
+                              </Popup>
+
+                              {/* delete teacher */}
+                              <Popup
+                                trigger={
+                                  <DeleteOutline style={{ color: "red" }} />
+                                }
+                                position="left center"
+                              >
+                                <PopupMessage>
+                                  <P
+                                    style={{
+                                      textAlign: "center",
+                                      color: "#666",
+                                    }}
+                                  >
+                                    Are you sure you want to delete this
+                                    teacher?
+                                  </P>
+                                  <ButtonWrapper>
+                                    <Button
+                                      style={{
+                                        border: "1px solid red",
+                                        color: "red",
+                                      }}
+                                      onClick={(e) =>
+                                        handleDeleteTeacher(e, t._id)
+                                      }
+                                    >
+                                      Confirm
+                                    </Button>
+                                  </ButtonWrapper>
+                                </PopupMessage>
+                              </Popup>
                             </Td>
                           </Tr>
                         ))

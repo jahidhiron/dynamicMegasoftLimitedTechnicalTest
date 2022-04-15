@@ -97,8 +97,28 @@ const banTeacher = async (req, res) => {
   }
 };
 
+const deleteTeacher = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+
+    User.findByIdAndDelete(_id, (err, docs) => {
+      if (err) {
+        return res.status(404).json({ message: "No teacher data found!" });
+      } else {
+        res.status(200).json({
+          message: `Teacher has been deleted successully!`,
+          deleteStatus: true,
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
 module.exports = {
   getTeachers,
   searchTeacher,
   banTeacher,
+  deleteTeacher,
 };

@@ -6,6 +6,9 @@ import {
   bannedTeacherStart,
   bannedTeacherSuccess,
   bannedTeacherFailure,
+  deleteTeacherStart,
+  deleteTeacherSuccess,
+  deleteTeacherFailure,
 } from "../reducers/teacher";
 
 // action creator for get teachers
@@ -38,6 +41,23 @@ export const bannedTeacher = (id) => async (dispatch) => {
       bannedTeacherFailure({
         message: error?.response?.data?.message,
         status: error?.response?.data?.status,
+      })
+    );
+  }
+};
+
+// action creator for delete teacher
+export const deleteTeacher = (id) => async (dispatch) => {
+  try {
+    dispatch(deleteTeacherStart());
+
+    const { data } = await api.deleteTeacher(id);
+
+    dispatch(deleteTeacherSuccess(data));
+  } catch (error) {
+    dispatch(
+      deleteTeacherFailure({
+        message: error?.response?.data?.message,
       })
     );
   }
