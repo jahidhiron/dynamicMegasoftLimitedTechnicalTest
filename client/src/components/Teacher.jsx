@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteOutline, Block } from "@material-ui/icons";
 
@@ -19,6 +19,7 @@ import {
   PageNumber,
   Input,
   Label,
+  Search,
 } from "../styles/Teacher.styles";
 import LeftBar from "../components/LeftBar";
 import ShowProfileFirstTime from "./ShowProfileFirstTime";
@@ -29,8 +30,8 @@ const Teacher = () => {
   const localStorageData = JSON.parse(localStorage.getItem("profile"));
   const { style } = useSelector((state) => state.style);
   const { teacher } = useSelector((state) => state.teacher);
-  const [page, setPage] = useState([]);
   const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -50,6 +51,26 @@ const Teacher = () => {
     dispatch(getTeachers(pageSize, teacher?.currentPage));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageSize]);
+
+  // search debounce
+  const debounce = (func) => {
+    let timer;
+    return function (...args) {
+      const context = this;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        func.apply(context, args);
+      }, 300);
+    };
+  };
+
+  const handleSearchText = async (value) => {
+    await dispatch(getTeachers(10, 1, value));
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const optimizedFn = useCallback(debounce(handleSearchText), []);
 
   const handlePagination = async (e, p) => {
     await dispatch(getTeachers(pageSize, p));
@@ -71,6 +92,13 @@ const Teacher = () => {
           <LeftBar />
           <MainContent toggle={style.sidebar}>
             <Title>All Teachers Information</Title>
+            <Search
+              name="searchText"
+              onChange={(e) => {
+                optimizedFn(e.target.value);
+              }}
+              placeholder="Search teacher"
+            />
             <TeacherWrapper>
               <ViewTeacherWrapper>
                 <Table>
@@ -91,47 +119,51 @@ const Teacher = () => {
                   </Thead>
 
                   <Tbody>
-                    {teacher?.teachers?.length &&
-                      teacher.teachers.map((t) => (
-                        <Tr key={t._id}>
-                          <Td>{t.userId}</Td>
-                          <Td>{t.name}</Td>
-                          <Td>{t.email}</Td>
-                          <Td>{t.phone}</Td>
-                          <Td>{t.presentAddress}</Td>
-                          <Td>{t.permanentAddress}</Td>
-                          <Td>{t.city}</Td>
-                          <Td>{t.country}</Td>
-                          <Td
-                            style={{
-                              color: t.isBan ? "#F7B217" : "green",
-                            }}
-                          >
-                            {t.isBan ? "Yes" : "No"}
-                          </Td>
-                          <Td
-                            style={{
-                              color: t.isFirstLogin ? "#F7B217" : "green",
-                            }}
-                          >
-                            {t.isFirstLogin ? "Obsolete" : "Updated"}
-                          </Td>
-                          <Td
-                            style={{
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              border: "none",
-                            }}
-                          >
-                            <Block
-                              style={{ color: "#F7B217", marginRight: "15px" }}
-                            />
-                            <DeleteOutline style={{ color: "red" }} />
-                          </Td>
-                        </Tr>
-                      ))}
+                    {teacher?.teachers?.length
+                      ? teacher.teachers.map((t) => (
+                          <Tr key={t._id}>
+                            <Td>{t.userId}</Td>
+                            <Td>{t.name}</Td>
+                            <Td>{t.email}</Td>
+                            <Td>{t.phone}</Td>
+                            <Td>{t.presentAddress}</Td>
+                            <Td>{t.permanentAddress}</Td>
+                            <Td>{t.city}</Td>
+                            <Td>{t.country}</Td>
+                            <Td
+                              style={{
+                                color: t.isBan ? "#F7B217" : "green",
+                              }}
+                            >
+                              {t.isBan ? "Yes" : "No"}
+                            </Td>
+                            <Td
+                              style={{
+                                color: t.isFirstLogin ? "#F7B217" : "green",
+                              }}
+                            >
+                              {t.isFirstLogin ? "Obsolete" : "Updated"}
+                            </Td>
+                            <Td
+                              style={{
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                border: "none",
+                              }}
+                            >
+                              <Block
+                                style={{
+                                  color: "#F7B217",
+                                  marginRight: "15px",
+                                }}
+                              />
+                              <DeleteOutline style={{ color: "red" }} />
+                            </Td>
+                          </Tr>
+                        ))
+                      : null}
                   </Tbody>
                 </Table>
               </ViewTeacherWrapper>

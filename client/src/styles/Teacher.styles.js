@@ -123,4 +123,9 @@ export const Label = styled.label`
   margin-left: 10px;
 `;
 
-export const Form = styled.form``;
+export const Search = styled.input`
+  border: 1px solid var(--main-color);
+  padding: 3px 10px;
+  margin-bottom: 20px;
+  margin-left: 2.5%;
+`;
