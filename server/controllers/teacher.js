@@ -88,7 +88,7 @@ const banTeacher = async (req, res) => {
 
     res.status(200).json({
       message: `Teacher has been ${
-        teacher.isBan ? "banned" : "activated"
+        teacher.isBan ? "banned" : "unbanned"
       } successully!`,
       status: teacher.isBan,
     });

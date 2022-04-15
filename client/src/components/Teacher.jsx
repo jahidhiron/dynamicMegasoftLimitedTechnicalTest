@@ -119,7 +119,6 @@ const Teacher = () => {
     }, 3000);
   };
 
-  console.log(errors);
   return (
     <Container>
       <ShowProfileFirstTime />
