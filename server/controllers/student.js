@@ -46,6 +46,119 @@ const getStudents = async (req, res) => {
   }
 };
 
+// get recent students
+const getRecentStudents = async (req, res) => {
+  try {
+    const students = await User.find({ role: "student" })
+      .select("-password, -__v, -googleId, -role, ")
+      .sort({ _id: -1 })
+      .limit(5)
+      .lean();
+
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
+// get unprofile students
+const getUnprofileStudents = async (req, res) => {
+  try {
+    const { size, page, search } = req.query;
+    const pageNum = parseInt(page) || 1;
+    const limit = parseInt(size) || 10;
+
+    const totalStudent = await User.countDocuments({
+      role: "student",
+      isFirstLogin: true,
+    });
+    const totalPage = Math.ceil(totalStudent / limit);
+
+    let query = { role: "student", isFirstLogin: true };
+
+    if (search !== "undefined") {
+      let regex = new RegExp(search, "i");
+      query = {
+        ...query,
+        $or: [
+          { userId: regex },
+          { name: regex },
+          { phone: regex },
+          { email: regex },
+          { city: regex },
+          { country: regex },
+        ],
+      };
+    }
+
+    const students = await User.find(query)
+      .select("-password, -__v, -googleId, -role, ")
+      .sort({ _id: -1 })
+      .skip((pageNum - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    const data = {
+      students,
+      currentPage: Number(pageNum),
+      totalPage,
+    };
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
+// get ban students
+const getBanStudents = async (req, res) => {
+  try {
+    const { size, page, search } = req.query;
+    const pageNum = parseInt(page) || 1;
+    const limit = parseInt(size) || 10;
+
+    const totalStudent = await User.countDocuments({
+      role: "student",
+      isBan: true,
+    });
+    const totalPage = Math.ceil(totalStudent / limit);
+
+    let query = { role: "student", isBan: true };
+
+    if (search !== "undefined") {
+      let regex = new RegExp(search, "i");
+      query = {
+        ...query,
+        $or: [
+          { userId: regex },
+          { name: regex },
+          { phone: regex },
+          { email: regex },
+          { city: regex },
+          { country: regex },
+        ],
+      };
+    }
+
+    const students = await User.find(query)
+      .select("-password, -__v, -googleId, -role, ")
+      .sort({ _id: -1 })
+      .skip((pageNum - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    const data = {
+      students,
+      currentPage: Number(pageNum),
+      totalPage,
+    };
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
 // search student
 const searchStudent = async (req, res) => {
   try {
@@ -151,4 +264,7 @@ module.exports = {
   banStudent,
   activeStudent,
   deleteStudent,
+  getRecentStudents,
+  getUnprofileStudents,
+  getBanStudents,
 };

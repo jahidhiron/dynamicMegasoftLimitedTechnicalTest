@@ -6,6 +6,9 @@ const {
   banStudent,
   deleteStudent,
   activeStudent,
+  getRecentStudents,
+  getUnprofileStudents,
+  getBanStudents,
 } = require("../controllers/student");
 const isAuthentication = require("../middlewares/auth/index");
 const {
@@ -17,6 +20,12 @@ const { validationResults } = require("../middlewares/validators/results");
 
 // route
 router.get("/", isAuthentication, getStudents);
+
+router.get("/recent-student", isAuthentication, getRecentStudents);
+
+router.get("/unprofile-student", isAuthentication, getUnprofileStudents);
+
+router.get("/ban-student", isAuthentication, getBanStudents);
 
 router.get("/search", isAuthentication, searchStudent);
 

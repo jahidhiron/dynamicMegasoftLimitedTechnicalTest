@@ -6,6 +6,9 @@ const {
   banTeacher,
   deleteTeacher,
   activeTeacher,
+  getRecentTeachers,
+  getUnprofileTeachers,
+  getBanTeachers,
 } = require("../controllers/teacher");
 const isAuthentication = require("../middlewares/auth/index");
 const {
@@ -19,6 +22,12 @@ const { validationResults } = require("../middlewares/validators/results");
 router.get("/", isAuthentication, getTeachers);
 
 router.get("/search", isAuthentication, searchTeacher);
+
+router.get("/recent-student", isAuthentication, getRecentTeachers);
+
+router.get("/unprofile-student", isAuthentication, getUnprofileTeachers);
+
+router.get("/ban-student", isAuthentication, getBanTeachers);
 
 router.patch(
   "/banned/:id",
