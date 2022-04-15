@@ -4,6 +4,7 @@ import style from "./style";
 import user from "./user";
 import auth from "./auth";
 import teacher from "./teacher";
+import student from "./student";
 
 export default configureStore({
   reducer: {
@@ -11,5 +12,6 @@ export default configureStore({
     user,
     auth,
     teacher,
+    student,
   },
 });

@@ -29,12 +29,12 @@ export const changePassword = (id, state) =>
 // auth API end point
 export const login = (userCredential) => API.post("/auth", userCredential);
 
-// teacher API end point
-export const getTeachers = (size, page, search) =>
-  API.get(`/teachers?size=${size}&page=${page}&search=${search}`);
+// student API end point
+export const getStudents = (size, page, search) =>
+  API.get(`/students?size=${size}&page=${page}&search=${search}`);
 
-export const bannedTeacher = (id) => API.patch(`/teachers/banned/${id}`);
+export const bannedStudent = (id) => API.patch(`/students/banned/${id}`);
 
-export const activeTeacher = (id) => API.patch(`/teachers/active/${id}`);
+export const activeStudent = (id) => API.patch(`/students/active/${id}`);
 
-export const deleteTeacher = (id) => API.delete(`/teachers/${id}`);
+export const deleteStudent = (id) => API.delete(`/students/${id}`);
