@@ -33,12 +33,13 @@ export const login = (userCredential) => API.post("/auth", userCredential);
 export const getTeachers = (size, page, search) =>
   API.get(`/teachers?size=${size}&page=${page}&search=${search}`);
 
-export const getRecentTeachers = () => API.delete("/teachers/recent-teacher");
+export const getRecentTeachers = () => API.get("/teachers/recent-teacher");
 
-export const getUnprofileTeachers = () =>
-  API.delete("/teachers/unprofile-teacher");
+export const getUnprofileTeachers = (size, page) =>
+  API.get(`/teachers/unprofile-teacher?page=${page}&size=${size}`);
 
-export const getBanTeachers = () => API.delete("/teachers/ban-teacher");
+export const getBanTeachers = (size, page) =>
+  API.get(`/teachers/ban-teacher?page=${page}&size=${size}`);
 
 export const bannedTeacher = (id) => API.patch(`/teachers/banned/${id}`);
 
@@ -50,12 +51,13 @@ export const deleteTeacher = (id) => API.delete(`/teachers/${id}`);
 export const getStudents = (size, page, search) =>
   API.get(`/students?size=${size}&page=${page}&search=${search}`);
 
-export const getRecentStudents = () => API.delete("/teachers/recent-student");
+export const getRecentStudents = () => API.get("/students/recent-student");
 
-export const getUnprofileStudents = () =>
-  API.delete("/teachers/unprofile-student");
+export const getUnprofileStudents = (size, page) =>
+  API.get(`/students/unprofile-student?page=${page}&size=${size}`);
 
-export const getBanStudents = () => API.delete("/teachers/ban-student");
+export const getBanStudents = (size, page) =>
+  API.get(`/students/ban-student?page=${page}&size=${size}`);
 
 export const bannedStudent = (id) => API.patch(`/students/banned/${id}`);
 

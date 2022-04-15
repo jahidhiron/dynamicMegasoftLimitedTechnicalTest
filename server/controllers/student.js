@@ -64,7 +64,7 @@ const getRecentStudents = async (req, res) => {
 // get unprofile students
 const getUnprofileStudents = async (req, res) => {
   try {
-    const { size, page, search } = req.query;
+    const { size, page } = req.query;
     const pageNum = parseInt(page) || 1;
     const limit = parseInt(size) || 10;
 
@@ -75,21 +75,6 @@ const getUnprofileStudents = async (req, res) => {
     const totalPage = Math.ceil(totalStudent / limit);
 
     let query = { role: "student", isFirstLogin: true };
-
-    if (search !== "undefined") {
-      let regex = new RegExp(search, "i");
-      query = {
-        ...query,
-        $or: [
-          { userId: regex },
-          { name: regex },
-          { phone: regex },
-          { email: regex },
-          { city: regex },
-          { country: regex },
-        ],
-      };
-    }
 
     const students = await User.find(query)
       .select("-password, -__v, -googleId, -role, ")
@@ -113,7 +98,7 @@ const getUnprofileStudents = async (req, res) => {
 // get ban students
 const getBanStudents = async (req, res) => {
   try {
-    const { size, page, search } = req.query;
+    const { size, page } = req.query;
     const pageNum = parseInt(page) || 1;
     const limit = parseInt(size) || 10;
 
@@ -124,21 +109,6 @@ const getBanStudents = async (req, res) => {
     const totalPage = Math.ceil(totalStudent / limit);
 
     let query = { role: "student", isBan: true };
-
-    if (search !== "undefined") {
-      let regex = new RegExp(search, "i");
-      query = {
-        ...query,
-        $or: [
-          { userId: regex },
-          { name: regex },
-          { phone: regex },
-          { email: regex },
-          { city: regex },
-          { country: regex },
-        ],
-      };
-    }
 
     const students = await User.find(query)
       .select("-password, -__v, -googleId, -role, ")
@@ -191,6 +161,7 @@ const searchStudent = async (req, res) => {
 // ban student
 const banStudent = async (req, res) => {
   try {
+    console.log("here");
     const { id: _id } = req.params;
 
     const student = await User.findById(_id);

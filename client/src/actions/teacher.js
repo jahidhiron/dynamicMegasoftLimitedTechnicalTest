@@ -58,11 +58,11 @@ export const getRecentTeachers = () => async (dispatch) => {
 };
 
 // action creator for get unprofile teacher
-export const getUnprofileTeachers = () => async (dispatch) => {
+export const getUnprofileTeachers = (size, page) => async (dispatch) => {
   try {
     dispatch(getUnprofileTeachersStart());
 
-    const { data } = await api.getUnprofileTeachers();
+    const { data } = await api.getUnprofileTeachers(size, page);
 
     dispatch(getUnprofileTeachersSuccess(data));
   } catch (error) {
@@ -75,11 +75,11 @@ export const getUnprofileTeachers = () => async (dispatch) => {
 };
 
 // action creator for get ban teacher
-export const getBanTeachers = () => async (dispatch) => {
+export const getBanTeachers = (size, page) => async (dispatch) => {
   try {
     dispatch(getBanTeachersStart());
 
-    const { data } = await api.getBanTeachers();
+    const { data } = await api.getBanTeachers(size, page);
 
     dispatch(getBanTeachersSuccess(data));
   } catch (error) {
