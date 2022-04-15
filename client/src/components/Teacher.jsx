@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteOutline, Block } from "@material-ui/icons";
+import FlashMessage from "react-flash-message";
 
 import { Container, MainContent } from "../styles/Home.styles";
 import {
@@ -23,7 +24,7 @@ import {
 } from "../styles/Teacher.styles";
 import LeftBar from "../components/LeftBar";
 import ShowProfileFirstTime from "./ShowProfileFirstTime";
-import { getTeachers } from "../actions/teacher";
+import { getTeachers, bannedTeacher } from "../actions/teacher";
 import classes from "../styles/Teacher.module.css";
 
 const Teacher = () => {
@@ -84,6 +85,14 @@ const Teacher = () => {
     await dispatch(getTeachers(pageSize, page + 1));
   };
 
+  const handleBannedTeacher = async (e, id) => {
+    await dispatch(bannedTeacher(id));
+
+    setTimeout(async () => {
+      await dispatch(getTeachers(pageSize, teacher?.currentPage));
+    }, 3000);
+  };
+
   return (
     <Container>
       <ShowProfileFirstTime />
@@ -91,6 +100,19 @@ const Teacher = () => {
         <>
           <LeftBar />
           <MainContent toggle={style.sidebar}>
+            {teacher?.message && (
+              <FlashMessage duration={5000} persistOnHover={true}>
+                <p
+                  style={{
+                    color: teacher?.status ? "#F7B217" : "green",
+                    textAlign: "center",
+                    marginBottom: "20px",
+                  }}
+                >
+                  {teacher?.message}
+                </p>
+              </FlashMessage>
+            )}
             <Title>All Teachers Information</Title>
             <Search
               name="searchText"
@@ -152,6 +174,7 @@ const Teacher = () => {
                                 justifyContent: "center",
                                 border: "none",
                               }}
+                              onClick={(e) => handleBannedTeacher(e, t._id)}
                             >
                               <Block
                                 style={{

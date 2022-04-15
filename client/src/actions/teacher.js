@@ -3,13 +3,15 @@ import {
   getTeachersStart,
   getTeachersSuccess,
   getTeachersFailure,
+  bannedTeacherStart,
+  bannedTeacherSuccess,
+  bannedTeacherFailure,
 } from "../reducers/teacher";
 
-// action creator get teachers
+// action creator for get teachers
 export const getTeachers = (size, page, search) => async (dispatch) => {
   try {
     dispatch(getTeachersStart());
-    console.log("search : ", search);
 
     const { data } = await api.getTeachers(size, page, search);
 
@@ -18,6 +20,24 @@ export const getTeachers = (size, page, search) => async (dispatch) => {
     dispatch(
       getTeachersFailure({
         message: error?.response?.data?.message,
+      })
+    );
+  }
+};
+
+// action creator for banned teacher
+export const bannedTeacher = (id) => async (dispatch) => {
+  try {
+    dispatch(bannedTeacherStart());
+
+    const { data } = await api.bannedTeacher(id);
+
+    dispatch(bannedTeacherSuccess(data));
+  } catch (error) {
+    dispatch(
+      bannedTeacherFailure({
+        message: error?.response?.data?.message,
+        status: error?.response?.data?.status,
       })
     );
   }

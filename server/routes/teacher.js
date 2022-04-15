@@ -1,12 +1,25 @@
 const router = require("express").Router();
 
-const { getTeachers, searchTeacher } = require("../controllers/teacher");
+const {
+  getTeachers,
+  searchTeacher,
+  banTeacher,
+} = require("../controllers/teacher");
 const isAuthentication = require("../middlewares/auth/index");
-// const {} = require("../middlewares/validators/");
-// const { validationResults } = require("../middlewares/validators/results");
+const { banTeacherValidator } = require("../middlewares/validators/teacher");
+const { validationResults } = require("../middlewares/validators/results");
 
 // route
 router.get("/", isAuthentication, getTeachers);
+
 router.get("/search", isAuthentication, searchTeacher);
+
+router.patch(
+  "/banned/:id",
+  isAuthentication,
+  banTeacherValidator,
+  validationResults,
+  banTeacher
+);
 
 module.exports = router;
