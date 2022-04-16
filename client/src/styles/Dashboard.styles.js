@@ -183,3 +183,25 @@ export const Label = styled.label`
   margin-right: 10px;
   margin-left: 10px;
 `;
+
+export const TeacherContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  border: 2px solid var(--main-color);
+  padding: 20px 40px;
+  width: 100%;
+  border-radius: 20px;
+  flex-direction: column;
+`;
+
+export const StudentContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  border: 2px solid var(--main-color);
+  width: 100%;
+  padding: 20px 40px;
+  border-radius: 20px;
+  flex-direction: column;
+`;

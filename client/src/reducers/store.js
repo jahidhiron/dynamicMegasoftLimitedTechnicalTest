@@ -6,6 +6,7 @@ import auth from "./auth";
 import teacher from "./teacher";
 import student from "./student";
 import course from "./course";
+import registration from "./registration";
 
 export default configureStore({
   reducer: {
@@ -15,5 +16,6 @@ export default configureStore({
     teacher,
     student,
     course,
+    registration,
   },
 });

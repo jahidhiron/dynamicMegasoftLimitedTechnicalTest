@@ -5,7 +5,6 @@ const courseSchema = mongoose.Schema(
     name: { type: String, required: true },
     description: { type: String, require: true },
     teacherId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-    studentId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
     status: { type: Boolean, default: true },
   },
   { timestamps: true }

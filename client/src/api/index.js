@@ -79,3 +79,14 @@ export const deleteCourse = (id) => API.delete(`/courses/${id}`);
 
 export const searchCourse = (search, id) =>
   API.get(`/courses/search?search=${search}&teacherId=${id}`);
+
+// registration api end point
+export const createRegistration = (newRegistration) =>
+  API.post("/registrations", newRegistration);
+
+export const getRegistartion = (id) => API.get(`/registrations/${id}`);
+
+export const getRegistartions = (teacherId, studentId) =>
+  API.get(`/registrations?teacherId=${teacherId}&studentId=${studentId}`);
+
+export const updateRegistration = (id) => API.patch(`/registrations/${id}`);

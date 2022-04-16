@@ -161,7 +161,6 @@ const searchStudent = async (req, res) => {
 // ban student
 const banStudent = async (req, res) => {
   try {
-    console.log("here");
     const { id: _id } = req.params;
 
     const student = await User.findById(_id);

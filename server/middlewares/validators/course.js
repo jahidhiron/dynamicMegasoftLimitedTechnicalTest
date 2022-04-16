@@ -5,6 +5,10 @@ const mongoose = require("mongoose");
 const Course = require("../../models/Course");
 
 const addCourseValidator = [
+  check("courseId").notEmpty().withMessage("You should select a valid course"),
+  check("teacherId")
+    .notEmpty()
+    .withMessage("You should select a valid teacher"),
   check("name")
     .notEmpty()
     .withMessage("You should provide a valid course name")

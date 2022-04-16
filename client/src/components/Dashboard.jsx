@@ -25,6 +25,8 @@ import {
   PageNumber,
   Input,
   Label,
+  TeacherContainer,
+  StudentContainer,
 } from "../styles/Dashboard.styles";
 import {
   getRecentTeachers,
@@ -38,6 +40,7 @@ import {
 } from "../actions/student";
 import ShowProfileFirstTime from "./ShowProfileFirstTime";
 import classes from "../styles/Dashboard.module.css";
+import { getRegistrations } from "../actions/registration";
 
 const Dashboard = () => {
   const localStorageData = JSON.parse(localStorage.getItem("profile"));
@@ -57,7 +60,18 @@ const Dashboard = () => {
   const { style } = useSelector((state) => state.style);
   const teacher = useSelector((state) => state.teacher);
   const student = useSelector((state) => state.student);
+  const { registrations } = useSelector((state) => state.registration);
   const dispatch = useDispatch();
+
+  // registered course
+  useEffect(() => {
+    if (localStorageData?.user.role === "student") {
+      dispatch(getRegistrations("", localStorageData?.user?.id));
+    }
+    if (localStorageData?.user.role === "teacher") {
+      dispatch(getRegistrations(localStorageData?.user?.id, ""));
+    }
+  }, []);
 
   // after first load
   useEffect(() => {
@@ -726,9 +740,74 @@ const Dashboard = () => {
               </DashboardWrapper>
             )}
 
-            {localStorageData?.user?.role === "teacher" && "Teacher Dashboard"}
+            {localStorageData?.user?.role === "teacher" && "Teacher Dashboard" && (
+              <TeacherContainer>
+                <Title style={{ marginBottom: "30px" }}>
+                  All registered course information
+                </Title>
+                <Table>
+                  <Thead>
+                    <Tr>
+                      <Th>Name</Th>
+                      <Th>Description</Th>
+                      <Th>Teacher Name</Th>
+                      <Th>Teacher Email</Th>
+                      <Th>Teacher Phone</Th>
+                      <Th>Status</Th>
+                    </Tr>
+                  </Thead>
 
-            {localStorageData?.user?.role === "student" && "Student Dashboard"}
+                  <Tbody>
+                    {registrations?.length
+                      ? registrations?.map((r) => (
+                          <Tr key={r._id}>
+                            <Td>{r.name}</Td>
+                            <Td>{r.description}</Td>
+                            <Td>{r.studentId.name}</Td>
+                            <Td>{r.studentId.email}</Td>
+                            <Td>{r.studentId.name}</Td>
+                            <Td>{r.status ? "Active" : "Inactive"}</Td>
+                          </Tr>
+                        ))
+                      : null}
+                  </Tbody>
+                </Table>
+              </TeacherContainer>
+            )}
+
+            {localStorageData?.user?.role === "student" && "Student Dashboard" && (
+              <StudentContainer style={{ marginBottom: "30px" }}>
+                <Title>All registered course information</Title>
+
+                <Table>
+                  <Thead>
+                    <Tr>
+                      <Th>Name</Th>
+                      <Th>Description</Th>
+                      <Th>Teacher Name</Th>
+                      <Th>Teacher Email</Th>
+                      <Th>Teacher Phone</Th>
+                      <Th>Status</Th>
+                    </Tr>
+                  </Thead>
+
+                  <Tbody>
+                    {registrations?.length
+                      ? registrations?.map((r) => (
+                          <Tr key={r._id}>
+                            <Td>{r.name}</Td>
+                            <Td>{r.description}</Td>
+                            <Td>{r.teacherId.name}</Td>
+                            <Td>{r.teacherId.email}</Td>
+                            <Td>{r.teacherId.name}</Td>
+                            <Td>{r.status ? "Active" : "Inactive"}</Td>
+                          </Tr>
+                        ))
+                      : null}
+                  </Tbody>
+                </Table>
+              </StudentContainer>
+            )}
           </MainContent>
         </>
       )}

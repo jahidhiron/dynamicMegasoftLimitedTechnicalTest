@@ -7,7 +7,6 @@ export const CourseWrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 1px solid;
   width: 100%;
   height: 100%;
 `;
@@ -28,7 +27,7 @@ export const CourseWrapperTopLeft = styled.div`
   width: 55%;
   height: 100%;
   margin-right: 5%;
-  border: 1px solid black;
+  border: 2px solid var(--main-color);
   border-radius: 15px;
   background-color: #f3f2ef;
 `;
@@ -39,7 +38,7 @@ export const CourseWrapperTopRight = styled.div`
   justify-content: center;
   width: 35%;
   height: 100%;
-  border: 1px solid black;
+  border: 2px solid var(--main-color);
   border-radius: 15px;
   background-color: #f3f2ef;
   flex-direction: column;
@@ -51,7 +50,8 @@ export const CourseWrapperBottom = styled.div`
   justify-content: center;
   width: 100%;
   height: 65%;
-  border: 1px solid black;
+  border: 2px solid var(--main-color);
+  border-radius: 20px;
 `;
 
 export const InputWrapper = styled.div`

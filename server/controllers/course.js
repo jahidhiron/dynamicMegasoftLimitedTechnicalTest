@@ -1,5 +1,3 @@
-const bcrypt = require("bcryptjs");
-
 const Course = require("../models/Course");
 
 // add new course
@@ -34,7 +32,7 @@ const updateCourse = async (req, res) => {
     course.description = description ? description : course.description;
     await course.save();
 
-    res.status(201).json(course);
+    res.status(200).json(course);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
@@ -70,7 +68,7 @@ const getCourse = async (req, res) => {
       res.status(404).json({ message: "No course data found!" });
     }
 
-    res.status(201).json(course);
+    res.status(200).json(course);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
@@ -81,9 +79,14 @@ const getCourses = async (req, res) => {
   const { teacherId } = req.query;
 
   try {
-    const course = await Course.find({ teacherId });
+    let courses = [];
+    if (teacherId !== "undefined") {
+      courses = await Course.find({ teacherId });
+    } else {
+      courses = await Course.find({});
+    }
 
-    res.status(201).json(course);
+    res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
@@ -104,8 +107,6 @@ const searchCourses = async (req, res) => {
     }
 
     const courses = await Course.find(query).select("-__v").sort({ _id: -1 });
-
-    console.log(courses);
 
     res.status(200).json(courses);
   } catch (error) {
