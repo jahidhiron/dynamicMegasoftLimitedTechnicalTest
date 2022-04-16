@@ -213,508 +213,522 @@ const Dashboard = () => {
         <>
           <LeftBar />
           <MainContent toggle={style.sidebar}>
-            <DashboardWrapper>
-              {/* recently add user */}
-              <DashboardWrapperTop>
-                {/* recently add teacher */}
-                <DashboardWrapperLeft>
-                  <Wrapper>
-                    <Title>Recently Add Teachers</Title>
-                    <ViewWrapper>
-                      <Table>
-                        <Thead>
-                          <Tr>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                          </Tr>
-                        </Thead>
+            {localStorageData?.user?.role === "admin" && (
+              <DashboardWrapper>
+                {/* recently add user */}
+                <DashboardWrapperTop>
+                  {/* recently add teacher */}
+                  <DashboardWrapperLeft>
+                    <Wrapper>
+                      <Title>Recently Add Teachers</Title>
+                      <ViewWrapper>
+                        <Table>
+                          <Thead>
+                            <Tr>
+                              <Th>Name</Th>
+                              <Th>Email</Th>
+                            </Tr>
+                          </Thead>
 
-                        <Tbody>
-                          {teacher?.recentTeacher?.length
-                            ? teacher.recentTeacher.map((t) => (
-                                <Tr key={t._id}>
-                                  <Td>{t.name}</Td>
-                                  <Td>{t.email}</Td>
-                                </Tr>
-                              ))
-                            : null}
-                        </Tbody>
-                      </Table>
-                    </ViewWrapper>
-                  </Wrapper>
-                </DashboardWrapperLeft>
+                          <Tbody>
+                            {teacher?.recentTeacher?.length
+                              ? teacher.recentTeacher.map((t) => (
+                                  <Tr key={t._id}>
+                                    <Td>{t.name}</Td>
+                                    <Td>{t.email}</Td>
+                                  </Tr>
+                                ))
+                              : null}
+                          </Tbody>
+                        </Table>
+                      </ViewWrapper>
+                    </Wrapper>
+                  </DashboardWrapperLeft>
 
-                {/* recently add student */}
-                <DashboardWrapperRight>
-                  <Wrapper>
-                    <Title>Recently Add Students</Title>
-                    <ViewWrapper>
-                      <Table>
-                        <Thead>
-                          <Tr>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                          </Tr>
-                        </Thead>
+                  {/* recently add student */}
+                  <DashboardWrapperRight>
+                    <Wrapper>
+                      <Title>Recently Add Students</Title>
+                      <ViewWrapper>
+                        <Table>
+                          <Thead>
+                            <Tr>
+                              <Th>Name</Th>
+                              <Th>Email</Th>
+                            </Tr>
+                          </Thead>
 
-                        <Tbody>
-                          {student?.recentStudent?.length
-                            ? student.recentStudent.map((t) => (
-                                <Tr key={t._id}>
-                                  <Td>{t.name}</Td>
-                                  <Td>{t.email}</Td>
-                                </Tr>
-                              ))
-                            : null}
-                        </Tbody>
-                      </Table>
-                    </ViewWrapper>
-                  </Wrapper>
-                </DashboardWrapperRight>
-              </DashboardWrapperTop>
+                          <Tbody>
+                            {student?.recentStudent?.length
+                              ? student.recentStudent.map((t) => (
+                                  <Tr key={t._id}>
+                                    <Td>{t.name}</Td>
+                                    <Td>{t.email}</Td>
+                                  </Tr>
+                                ))
+                              : null}
+                          </Tbody>
+                        </Table>
+                      </ViewWrapper>
+                    </Wrapper>
+                  </DashboardWrapperRight>
+                </DashboardWrapperTop>
 
-              {/* unprofile user */}
-              <DashboardWrapperMiddle>
-                {/* unprofile teacher */}
-                <DashboardWrapperLeft style={{ flexDirection: "column" }}>
-                  <Wrapper>
-                    <Title>Unprofile Teachers</Title>
-                    <ViewWrapper>
-                      <Table>
-                        <Thead>
-                          <Tr>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                          </Tr>
-                        </Thead>
+                {/* unprofile user */}
+                <DashboardWrapperMiddle>
+                  {/* unprofile teacher */}
+                  <DashboardWrapperLeft style={{ flexDirection: "column" }}>
+                    <Wrapper>
+                      <Title>Unprofile Teachers</Title>
+                      <ViewWrapper>
+                        <Table>
+                          <Thead>
+                            <Tr>
+                              <Th>Name</Th>
+                              <Th>Email</Th>
+                            </Tr>
+                          </Thead>
 
-                        <Tbody>
-                          {teacher?.unprofileTeacher?.teachers?.length
-                            ? teacher.unprofileTeacher?.teachers?.map((t) => (
-                                <Tr key={t._id}>
-                                  <Td>{t.name}</Td>
-                                  <Td>{t.email}</Td>
-                                </Tr>
-                              ))
-                            : null}
-                        </Tbody>
-                      </Table>
-                    </ViewWrapper>
-                  </Wrapper>
+                          <Tbody>
+                            {teacher?.unprofileTeacher?.teachers?.length
+                              ? teacher.unprofileTeacher?.teachers?.map((t) => (
+                                  <Tr key={t._id}>
+                                    <Td>{t.name}</Td>
+                                    <Td>{t.email}</Td>
+                                  </Tr>
+                                ))
+                              : null}
+                          </Tbody>
+                        </Table>
+                      </ViewWrapper>
+                    </Wrapper>
 
-                  {/* unprofile teacher pagination */}
-                  <PaginationContainer>
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          teacher?.unprofileTeacher?.currentPage === 1
-                            ? true
-                            : false
-                        }
-                        onClick={(e) =>
-                          handleTeacherUnprofilePrev(
-                            e,
-                            teacher?.unprofileTeacher?.currentPage
-                          )
-                        }
-                        className={
-                          teacher?.unprofileTeacher?.currentPage === 1
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Prev
-                      </Movement>
-                    </PaginationWrapper>
-
-                    <PaginationWrapper>
-                      {teacherUnprofilePage.map((p, i) => (
-                        <PageNumber
-                          key={i}
+                    {/* unprofile teacher pagination */}
+                    <PaginationContainer>
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            teacher?.unprofileTeacher?.currentPage === 1
+                              ? true
+                              : false
+                          }
                           onClick={(e) =>
-                            handleTeacherUnprofilePagination(e, p)
+                            handleTeacherUnprofilePrev(
+                              e,
+                              teacher?.unprofileTeacher?.currentPage
+                            )
+                          }
+                          className={
+                            teacher?.unprofileTeacher?.currentPage === 1
+                              ? classes.Movement
+                              : ""
                           }
                           type="submit"
-                          className={
-                            teacher?.unprofileTeacher?.currentPage === p &&
-                            classes.CurrentPage
-                          }
                         >
-                          {p}
-                        </PageNumber>
-                      ))}
-                    </PaginationWrapper>
+                          Prev
+                        </Movement>
+                      </PaginationWrapper>
 
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          teacher?.unprofileTeacher?.currentPage ===
-                          teacher?.unprofileTeacher?.totalPage
-                            ? true
-                            : false
-                        }
-                        onClick={(e) =>
-                          handleTeacherUnprofileNext(
-                            e,
-                            teacher?.unprofileTeacher?.currentPage
-                          )
-                        }
-                        className={
-                          teacher?.unprofileTeacher?.currentPage ===
-                          teacher?.unprofileTeacher?.totalPage
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Next
-                      </Movement>
-                    </PaginationWrapper>
+                      <PaginationWrapper>
+                        {teacherUnprofilePage.map((p, i) => (
+                          <PageNumber
+                            key={i}
+                            onClick={(e) =>
+                              handleTeacherUnprofilePagination(e, p)
+                            }
+                            type="submit"
+                            className={
+                              teacher?.unprofileTeacher?.currentPage === p &&
+                              classes.CurrentPage
+                            }
+                          >
+                            {p}
+                          </PageNumber>
+                        ))}
+                      </PaginationWrapper>
 
-                    <PaginationWrapper>
-                      <Label>Limit</Label>
-                      <Input
-                        type="text"
-                        name="pageSize"
-                        value={teacherUnprofilePageSize}
-                        onChange={(e) =>
-                          setTeacherUnprofilePageSize(e.target.value)
-                        }
-                      />
-                    </PaginationWrapper>
-                  </PaginationContainer>
-                </DashboardWrapperLeft>
-
-                {/* unprofile student */}
-                <DashboardWrapperRight style={{ flexDirection: "column" }}>
-                  <Wrapper>
-                    <Title>Unprofile Student</Title>
-                    <ViewWrapper>
-                      <Table>
-                        <Thead>
-                          <Tr>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                          </Tr>
-                        </Thead>
-
-                        <Tbody>
-                          {student?.unprofileStudent?.students?.length
-                            ? student.unprofileStudent?.students?.map((t) => (
-                                <Tr key={t._id}>
-                                  <Td>{t.name}</Td>
-                                  <Td>{t.email}</Td>
-                                </Tr>
-                              ))
-                            : null}
-                        </Tbody>
-                      </Table>
-                    </ViewWrapper>
-                  </Wrapper>
-
-                  {/* unprofile student pagination */}
-                  <PaginationContainer>
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          student?.unprofileStudent?.currentPage === 1
-                            ? true
-                            : false
-                        }
-                        onClick={(e) =>
-                          handleStudentUnprofilePrev(
-                            e,
-                            student?.unprofileStudent?.currentPage
-                          )
-                        }
-                        className={
-                          student?.unprofileStudent?.currentPage === 1
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Prev
-                      </Movement>
-                    </PaginationWrapper>
-
-                    <PaginationWrapper>
-                      {studentUnprofilePage.map((p, i) => (
-                        <PageNumber
-                          key={i}
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            teacher?.unprofileTeacher?.currentPage ===
+                            teacher?.unprofileTeacher?.totalPage
+                              ? true
+                              : false
+                          }
                           onClick={(e) =>
-                            handleStudentUnprofilePagination(e, p)
+                            handleTeacherUnprofileNext(
+                              e,
+                              teacher?.unprofileTeacher?.currentPage
+                            )
+                          }
+                          className={
+                            teacher?.unprofileTeacher?.currentPage ===
+                            teacher?.unprofileTeacher?.totalPage
+                              ? classes.Movement
+                              : ""
                           }
                           type="submit"
-                          className={
-                            student?.unprofileStudent?.currentPage === p &&
-                            classes.CurrentPage
-                          }
                         >
-                          {p}
-                        </PageNumber>
-                      ))}
-                    </PaginationWrapper>
+                          Next
+                        </Movement>
+                      </PaginationWrapper>
 
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          student?.unprofileStudent?.currentPage ===
-                          student?.unprofileStudent?.totalPage
-                            ? true
-                            : false
-                        }
-                        onClick={(e) =>
-                          handleStudentUnprofileNext(
-                            e,
-                            student?.unprofileStudent?.currentPage
-                          )
-                        }
-                        className={
-                          student?.unprofileStudent?.currentPage ===
-                          student?.unprofileStudent?.totalPage
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Next
-                      </Movement>
-                    </PaginationWrapper>
+                      <PaginationWrapper>
+                        <Label>Limit</Label>
+                        <Input
+                          type="text"
+                          name="pageSize"
+                          value={teacherUnprofilePageSize}
+                          onChange={(e) =>
+                            setTeacherUnprofilePageSize(e.target.value)
+                          }
+                        />
+                      </PaginationWrapper>
+                    </PaginationContainer>
+                  </DashboardWrapperLeft>
 
-                    <PaginationWrapper>
-                      <Label>Limit</Label>
-                      <Input
-                        type="text"
-                        name="pageSize"
-                        value={studentUnprofilePageSize}
-                        onChange={(e) =>
-                          setStudentUnprofilePageSize(e.target.value)
-                        }
-                      />
-                    </PaginationWrapper>
-                  </PaginationContainer>
-                </DashboardWrapperRight>
-              </DashboardWrapperMiddle>
+                  {/* unprofile student */}
+                  <DashboardWrapperRight style={{ flexDirection: "column" }}>
+                    <Wrapper>
+                      <Title>Unprofile Student</Title>
+                      <ViewWrapper>
+                        <Table>
+                          <Thead>
+                            <Tr>
+                              <Th>Name</Th>
+                              <Th>Email</Th>
+                            </Tr>
+                          </Thead>
 
-              {/* ban user */}
-              <DashboardWrapperBottom>
-                {/* ban teacher */}
-                <DashboardWrapperLeft style={{ flexDirection: "column" }}>
-                  <Wrapper>
-                    <Title>Ban Teacher</Title>
-                    <ViewWrapper>
-                      <Table>
-                        <Thead>
-                          <Tr>
-                            <Th>ID</Th>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                          </Tr>
-                        </Thead>
+                          <Tbody>
+                            {student?.unprofileStudent?.students?.length
+                              ? student.unprofileStudent?.students?.map((t) => (
+                                  <Tr key={t._id}>
+                                    <Td>{t.name}</Td>
+                                    <Td>{t.email}</Td>
+                                  </Tr>
+                                ))
+                              : null}
+                          </Tbody>
+                        </Table>
+                      </ViewWrapper>
+                    </Wrapper>
 
-                        <Tbody>
-                          {teacher?.banTeacher?.teachers?.length
-                            ? teacher.banTeacher?.teachers?.map((t) => (
-                                <Tr key={t._id}>
-                                  <Td>{t.userId}</Td>
-                                  <Td>{t.name}</Td>
-                                  <Td>{t.email}</Td>
-                                </Tr>
-                              ))
-                            : null}
-                        </Tbody>
-                      </Table>
-                    </ViewWrapper>
-                  </Wrapper>
-
-                  {/* ban teacher pagination */}
-                  <PaginationContainer>
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          teacher?.banTeacher?.currentPage === 1 ? true : false
-                        }
-                        onClick={(e) =>
-                          handleTeacherBanPrev(
-                            e,
-                            teacher?.banTeacher?.currentPage
-                          )
-                        }
-                        className={
-                          teacher?.banTeacher?.currentPage === 1
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Prev
-                      </Movement>
-                    </PaginationWrapper>
-
-                    <PaginationWrapper>
-                      {teacherBanPage.map((p, i) => (
-                        <PageNumber
-                          key={i}
-                          onClick={(e) => handleTeacherBanPagination(e, p)}
+                    {/* unprofile student pagination */}
+                    <PaginationContainer>
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            student?.unprofileStudent?.currentPage === 1
+                              ? true
+                              : false
+                          }
+                          onClick={(e) =>
+                            handleStudentUnprofilePrev(
+                              e,
+                              student?.unprofileStudent?.currentPage
+                            )
+                          }
+                          className={
+                            student?.unprofileStudent?.currentPage === 1
+                              ? classes.Movement
+                              : ""
+                          }
                           type="submit"
-                          className={
-                            teacher?.banTeacher?.currentPage === p &&
-                            classes.CurrentPage
-                          }
                         >
-                          {p}
-                        </PageNumber>
-                      ))}
-                    </PaginationWrapper>
+                          Prev
+                        </Movement>
+                      </PaginationWrapper>
 
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          teacher?.banTeacher?.currentPage ===
-                          teacher?.banTeacher?.totalPage
-                            ? true
-                            : false
-                        }
-                        onClick={(e) =>
-                          handleTeacherBanNext(
-                            e,
-                            teacher?.banTeacher?.currentPage
-                          )
-                        }
-                        className={
-                          teacher?.banTeacher?.currentPage ===
-                          teacher?.banTeacher?.totalPage
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Next
-                      </Movement>
-                    </PaginationWrapper>
+                      <PaginationWrapper>
+                        {studentUnprofilePage.map((p, i) => (
+                          <PageNumber
+                            key={i}
+                            onClick={(e) =>
+                              handleStudentUnprofilePagination(e, p)
+                            }
+                            type="submit"
+                            className={
+                              student?.unprofileStudent?.currentPage === p &&
+                              classes.CurrentPage
+                            }
+                          >
+                            {p}
+                          </PageNumber>
+                        ))}
+                      </PaginationWrapper>
 
-                    <PaginationWrapper>
-                      <Label>Limit</Label>
-                      <Input
-                        type="text"
-                        name="pageSize"
-                        value={teacherBanPageSize}
-                        onChange={(e) => setTeacherBanPageSize(e.target.value)}
-                      />
-                    </PaginationWrapper>
-                  </PaginationContainer>
-                </DashboardWrapperLeft>
-
-                {/* ban student */}
-                <DashboardWrapperRight style={{ flexDirection: "column" }}>
-                  <Wrapper>
-                    <Title>Ban Student</Title>
-                    <ViewWrapper>
-                      <Table>
-                        <Thead>
-                          <Tr>
-                            <Th>ID</Th>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                          </Tr>
-                        </Thead>
-
-                        <Tbody>
-                          {student?.banStudent?.students?.length
-                            ? student.banStudent?.students?.map((t) => (
-                                <Tr key={t._id}>
-                                  <Td>{t.userId}</Td>
-                                  <Td>{t.name}</Td>
-                                  <Td>{t.email}</Td>
-                                </Tr>
-                              ))
-                            : null}
-                        </Tbody>
-                      </Table>
-                    </ViewWrapper>
-                  </Wrapper>
-
-                  {/* ban student pagination */}
-                  <PaginationContainer>
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          student?.banStudent?.currentPage === 1 ? true : false
-                        }
-                        onClick={(e) =>
-                          handleStudentBanPrev(
-                            e,
-                            student?.banStudent?.currentPage
-                          )
-                        }
-                        className={
-                          student?.banStudent?.currentPage === 1
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Prev
-                      </Movement>
-                    </PaginationWrapper>
-
-                    <PaginationWrapper>
-                      {studentBanPage.map((p, i) => (
-                        <PageNumber
-                          key={i}
-                          onClick={(e) => handleStudentBanPagination(e, p)}
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            student?.unprofileStudent?.currentPage ===
+                            student?.unprofileStudent?.totalPage
+                              ? true
+                              : false
+                          }
+                          onClick={(e) =>
+                            handleStudentUnprofileNext(
+                              e,
+                              student?.unprofileStudent?.currentPage
+                            )
+                          }
+                          className={
+                            student?.unprofileStudent?.currentPage ===
+                            student?.unprofileStudent?.totalPage
+                              ? classes.Movement
+                              : ""
+                          }
                           type="submit"
-                          className={
-                            student?.banStudent?.currentPage === p &&
-                            classes.CurrentPage
-                          }
                         >
-                          {p}
-                        </PageNumber>
-                      ))}
-                    </PaginationWrapper>
+                          Next
+                        </Movement>
+                      </PaginationWrapper>
 
-                    <PaginationWrapper>
-                      <Movement
-                        disabled={
-                          student?.banStudent?.currentPage ===
-                          student?.banStudent?.totalPage
-                            ? true
-                            : false
-                        }
-                        onClick={(e) =>
-                          handleStudentBanNext(
-                            e,
-                            student?.banStudent?.currentPage
-                          )
-                        }
-                        className={
-                          student?.banStudent?.currentPage ===
-                          student?.banStudent?.totalPage
-                            ? classes.Movement
-                            : ""
-                        }
-                        type="submit"
-                      >
-                        Next
-                      </Movement>
-                    </PaginationWrapper>
+                      <PaginationWrapper>
+                        <Label>Limit</Label>
+                        <Input
+                          type="text"
+                          name="pageSize"
+                          value={studentUnprofilePageSize}
+                          onChange={(e) =>
+                            setStudentUnprofilePageSize(e.target.value)
+                          }
+                        />
+                      </PaginationWrapper>
+                    </PaginationContainer>
+                  </DashboardWrapperRight>
+                </DashboardWrapperMiddle>
 
-                    <PaginationWrapper>
-                      <Label>Limit</Label>
-                      <Input
-                        type="text"
-                        name="pageSize"
-                        value={studentBanPageSize}
-                        onChange={(e) => setStudentBanPageSize(e.target.value)}
-                      />
-                    </PaginationWrapper>
-                  </PaginationContainer>
-                </DashboardWrapperRight>
-              </DashboardWrapperBottom>
-            </DashboardWrapper>
+                {/* ban user */}
+                <DashboardWrapperBottom>
+                  {/* ban teacher */}
+                  <DashboardWrapperLeft style={{ flexDirection: "column" }}>
+                    <Wrapper>
+                      <Title>Ban Teacher</Title>
+                      <ViewWrapper>
+                        <Table>
+                          <Thead>
+                            <Tr>
+                              <Th>ID</Th>
+                              <Th>Name</Th>
+                              <Th>Email</Th>
+                            </Tr>
+                          </Thead>
+
+                          <Tbody>
+                            {teacher?.banTeacher?.teachers?.length
+                              ? teacher.banTeacher?.teachers?.map((t) => (
+                                  <Tr key={t._id}>
+                                    <Td>{t.userId}</Td>
+                                    <Td>{t.name}</Td>
+                                    <Td>{t.email}</Td>
+                                  </Tr>
+                                ))
+                              : null}
+                          </Tbody>
+                        </Table>
+                      </ViewWrapper>
+                    </Wrapper>
+
+                    {/* ban teacher pagination */}
+                    <PaginationContainer>
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            teacher?.banTeacher?.currentPage === 1
+                              ? true
+                              : false
+                          }
+                          onClick={(e) =>
+                            handleTeacherBanPrev(
+                              e,
+                              teacher?.banTeacher?.currentPage
+                            )
+                          }
+                          className={
+                            teacher?.banTeacher?.currentPage === 1
+                              ? classes.Movement
+                              : ""
+                          }
+                          type="submit"
+                        >
+                          Prev
+                        </Movement>
+                      </PaginationWrapper>
+
+                      <PaginationWrapper>
+                        {teacherBanPage.map((p, i) => (
+                          <PageNumber
+                            key={i}
+                            onClick={(e) => handleTeacherBanPagination(e, p)}
+                            type="submit"
+                            className={
+                              teacher?.banTeacher?.currentPage === p &&
+                              classes.CurrentPage
+                            }
+                          >
+                            {p}
+                          </PageNumber>
+                        ))}
+                      </PaginationWrapper>
+
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            teacher?.banTeacher?.currentPage ===
+                            teacher?.banTeacher?.totalPage
+                              ? true
+                              : false
+                          }
+                          onClick={(e) =>
+                            handleTeacherBanNext(
+                              e,
+                              teacher?.banTeacher?.currentPage
+                            )
+                          }
+                          className={
+                            teacher?.banTeacher?.currentPage ===
+                            teacher?.banTeacher?.totalPage
+                              ? classes.Movement
+                              : ""
+                          }
+                          type="submit"
+                        >
+                          Next
+                        </Movement>
+                      </PaginationWrapper>
+
+                      <PaginationWrapper>
+                        <Label>Limit</Label>
+                        <Input
+                          type="text"
+                          name="pageSize"
+                          value={teacherBanPageSize}
+                          onChange={(e) =>
+                            setTeacherBanPageSize(e.target.value)
+                          }
+                        />
+                      </PaginationWrapper>
+                    </PaginationContainer>
+                  </DashboardWrapperLeft>
+
+                  {/* ban student */}
+                  <DashboardWrapperRight style={{ flexDirection: "column" }}>
+                    <Wrapper>
+                      <Title>Ban Student</Title>
+                      <ViewWrapper>
+                        <Table>
+                          <Thead>
+                            <Tr>
+                              <Th>ID</Th>
+                              <Th>Name</Th>
+                              <Th>Email</Th>
+                            </Tr>
+                          </Thead>
+
+                          <Tbody>
+                            {student?.banStudent?.students?.length
+                              ? student.banStudent?.students?.map((t) => (
+                                  <Tr key={t._id}>
+                                    <Td>{t.userId}</Td>
+                                    <Td>{t.name}</Td>
+                                    <Td>{t.email}</Td>
+                                  </Tr>
+                                ))
+                              : null}
+                          </Tbody>
+                        </Table>
+                      </ViewWrapper>
+                    </Wrapper>
+
+                    {/* ban student pagination */}
+                    <PaginationContainer>
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            student?.banStudent?.currentPage === 1
+                              ? true
+                              : false
+                          }
+                          onClick={(e) =>
+                            handleStudentBanPrev(
+                              e,
+                              student?.banStudent?.currentPage
+                            )
+                          }
+                          className={
+                            student?.banStudent?.currentPage === 1
+                              ? classes.Movement
+                              : ""
+                          }
+                          type="submit"
+                        >
+                          Prev
+                        </Movement>
+                      </PaginationWrapper>
+
+                      <PaginationWrapper>
+                        {studentBanPage.map((p, i) => (
+                          <PageNumber
+                            key={i}
+                            onClick={(e) => handleStudentBanPagination(e, p)}
+                            type="submit"
+                            className={
+                              student?.banStudent?.currentPage === p &&
+                              classes.CurrentPage
+                            }
+                          >
+                            {p}
+                          </PageNumber>
+                        ))}
+                      </PaginationWrapper>
+
+                      <PaginationWrapper>
+                        <Movement
+                          disabled={
+                            student?.banStudent?.currentPage ===
+                            student?.banStudent?.totalPage
+                              ? true
+                              : false
+                          }
+                          onClick={(e) =>
+                            handleStudentBanNext(
+                              e,
+                              student?.banStudent?.currentPage
+                            )
+                          }
+                          className={
+                            student?.banStudent?.currentPage ===
+                            student?.banStudent?.totalPage
+                              ? classes.Movement
+                              : ""
+                          }
+                          type="submit"
+                        >
+                          Next
+                        </Movement>
+                      </PaginationWrapper>
+
+                      <PaginationWrapper>
+                        <Label>Limit</Label>
+                        <Input
+                          type="text"
+                          name="pageSize"
+                          value={studentBanPageSize}
+                          onChange={(e) =>
+                            setStudentBanPageSize(e.target.value)
+                          }
+                        />
+                      </PaginationWrapper>
+                    </PaginationContainer>
+                  </DashboardWrapperRight>
+                </DashboardWrapperBottom>
+              </DashboardWrapper>
+            )}
+
+            {localStorageData?.user?.role === "teacher" && "Teacher Dashboard"}
+
+            {localStorageData?.user?.role === "student" && "Student Dashboard"}
           </MainContent>
         </>
       )}

@@ -64,3 +64,18 @@ export const bannedStudent = (id) => API.patch(`/students/banned/${id}`);
 export const activeStudent = (id) => API.patch(`/students/active/${id}`);
 
 export const deleteStudent = (id) => API.delete(`/students/${id}`);
+
+// course api end point
+export const createCourse = (newCourse) => API.post("/courses", newCourse);
+
+export const getCourses = (id) => API.get(`/courses?teacherId=${id}`);
+
+export const getCourse = (id) => API.get(`/courses/${id}`);
+
+export const updateCourse = (id, updatedCourse) =>
+  API.patch(`/courses/${id}`, updatedCourse);
+
+export const deleteCourse = (id) => API.delete(`/courses/${id}`);
+
+export const searchCourse = (search, id) =>
+  API.get(`/courses/search?search=${search}&teacherId=${id}`);

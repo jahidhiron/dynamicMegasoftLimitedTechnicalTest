@@ -14,6 +14,7 @@ import {
 } from "../styles/Profile.styles";
 import { profileValidation } from "../utilities/validations/profile";
 import { updateProfile } from "../actions/user";
+import { logout } from "../actions/auth";
 
 const INITIAL_PROFILE_INFO = {
   phone: "",
@@ -33,9 +34,10 @@ const Profile = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      dispatch(logout());
       window.location.reload(false);
     }
-  }, [isSuccess]);
+  }, [isSuccess, dispatch]);
 
   const handleProfile = (e) => {
     setProfile((prev) => ({ ...prev, [e.target.name]: e.target.value }));

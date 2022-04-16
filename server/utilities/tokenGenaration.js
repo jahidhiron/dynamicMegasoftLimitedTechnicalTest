@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const tokenGenaration = (user) => {
-  const { _id, email, name, url, isFirstLogin } = user;
+  const { _id, email, name, url, isFirstLogin, role } = user;
 
   const token = jwt.sign(
     { id: _id, email: email },
@@ -16,6 +16,7 @@ const tokenGenaration = (user) => {
       name,
       url,
       isFirstLogin,
+      role,
     },
     token,
   };

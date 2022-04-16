@@ -45,20 +45,61 @@ const LeftBar = () => {
         >
           <LeftBarItem>Dashboard</LeftBarItem>
         </NavLink>
-        <NavLink
-          to="/teacher"
-          className={classes.leftBarLink}
-          onClick={handleContent}
-        >
-          <LeftBarItem>Teacher</LeftBarItem>
-        </NavLink>
-        <NavLink
-          to="/student"
-          className={classes.leftBarLink}
-          onClick={handleContent}
-        >
-          <LeftBarItem>Student</LeftBarItem>
-        </NavLink>
+        {locaStorageData?.user?.role === "admin" && (
+          <>
+            <NavLink
+              to="/teacher"
+              className={classes.leftBarLink}
+              onClick={handleContent}
+            >
+              <LeftBarItem>Teacher</LeftBarItem>
+            </NavLink>
+            <NavLink
+              to="/student"
+              className={classes.leftBarLink}
+              onClick={handleContent}
+            >
+              <LeftBarItem>Student</LeftBarItem>
+            </NavLink>
+          </>
+        )}
+
+        {locaStorageData?.user?.role === "teacher" && (
+          <>
+            <NavLink
+              to="/teacher-course"
+              className={classes.leftBarLink}
+              onClick={handleContent}
+            >
+              <LeftBarItem>Course</LeftBarItem>
+            </NavLink>
+            <NavLink
+              to="/take-quiz"
+              className={classes.leftBarLink}
+              onClick={handleContent}
+            >
+              <LeftBarItem>Quiz</LeftBarItem>
+            </NavLink>
+          </>
+        )}
+        {locaStorageData?.user?.role === "student" && (
+          <>
+            <NavLink
+              to="/student-course"
+              className={classes.leftBarLink}
+              onClick={handleContent}
+            >
+              <LeftBarItem>Course</LeftBarItem>
+            </NavLink>
+            <NavLink
+              to="/give-quiz"
+              className={classes.leftBarLink}
+              onClick={handleContent}
+            >
+              <LeftBarItem>Quiz</LeftBarItem>
+            </NavLink>
+          </>
+        )}
         <NavLink
           to="/update-profile"
           className={classes.leftBarLink}
