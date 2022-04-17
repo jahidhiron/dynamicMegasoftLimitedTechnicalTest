@@ -15,8 +15,10 @@ const Intro = () => {
         <Image src={baner} />
       </IntroLeft>
       <IntroRight>
-        <IntroTitle>Millions of user &amp; making Transections</IntroTitle>
-        <IntroDesc>An online platform that connects the world's user</IntroDesc>
+        <IntroTitle>Millions of student &amp; making interections</IntroTitle>
+        <IntroDesc>
+          An online platform that connects the world's students &amp; teachers
+        </IntroDesc>
       </IntroRight>
     </Container>
   );
