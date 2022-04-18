@@ -18,6 +18,7 @@ import StudentCourse from "../src/components/StudentCourse";
 import TakeQuiz from "../src/components/TakeQuiz";
 import GiveQuiz from "../src/components/GiveQuiz";
 import CreateQuiz from "../src/components/CreateQuiz";
+import ActivityLog from "../src/components/ActivityLog";
 
 // root component
 function App() {
@@ -59,6 +60,7 @@ function App() {
           <Route path="give-quiz" element={<GiveQuiz />} />
           <Route path="teacher" element={<Teacher />} />
           <Route path="student" element={<Student />} />
+          <Route path="activity-log" element={<ActivityLog />} />
           <Route path="update-profile" element={<UpdateProfile />} />
           <Route path="view-profile" element={<ViewProfile />} />
           <Route path="change-password" element={<ChangePassword />} />

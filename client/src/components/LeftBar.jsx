@@ -107,6 +107,15 @@ const LeftBar = () => {
             </NavLink>
           </>
         )}
+
+        <NavLink
+          to="/activity-log"
+          className={classes.leftBarLink}
+          onClick={handleContent}
+        >
+          <LeftBarItem>Activity Log</LeftBarItem>
+        </NavLink>
+
         <NavLink
           to="/update-profile"
           className={classes.leftBarLink}
