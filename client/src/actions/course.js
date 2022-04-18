@@ -29,10 +29,16 @@ export const createCourse = (newCourse) => async (dispatch) => {
 
     dispatch(createCourseSuccess(data));
   } catch (error) {
+    if (error?.response?.data?.message) {
+      dispatch(
+        createCourseFailure({
+          name: error?.response?.data?.message,
+        })
+      );
+    }
     if (error?.response?.data?.errors) {
       dispatch(
         createCourseFailure({
-          name: error?.response?.data?.errors?.name?.msg,
           description: error?.response?.data?.errors?.description?.msg,
         })
       );
@@ -75,31 +81,32 @@ export const getCourse = (id) => async (dispatch) => {
 };
 
 // action creator for update course
-export const updateCourse = (id, updatedCourse) => async (dispatch) => {
-  try {
-    dispatch(updateCourseStart());
+export const updateCourse =
+  (id, updatedCourse, teacherId) => async (dispatch) => {
+    try {
+      dispatch(updateCourseStart());
 
-    const { data } = await api.updateCourse(id, updatedCourse);
+      const { data } = await api.updateCourse(id, updatedCourse, teacherId);
 
-    dispatch(updateCourseSuccess(data));
-  } catch (error) {
-    if (error?.response?.data?.errors) {
-      dispatch(
-        updateCourseFailure({
-          name: error?.response?.data?.errors?.name?.msg,
-          description: error?.response?.data?.errors?.description?.msg,
-        })
-      );
+      dispatch(updateCourseSuccess(data));
+    } catch (error) {
+      if (error?.response?.data?.errors) {
+        dispatch(
+          updateCourseFailure({
+            name: error?.response?.data?.errors?.name?.msg,
+            description: error?.response?.data?.errors?.description?.msg,
+          })
+        );
+      }
     }
-  }
-};
+  };
 
 // action creator for delete course
-export const deleteCourse = (id) => async (dispatch) => {
+export const deleteCourse = (id, teacherId) => async (dispatch) => {
   try {
     dispatch(deleteCourseStart());
 
-    const { data } = await api.deleteCourse(id);
+    const { data } = await api.deleteCourse(id, teacherId);
 
     dispatch(deleteCourseSuccess(data));
   } catch (error) {

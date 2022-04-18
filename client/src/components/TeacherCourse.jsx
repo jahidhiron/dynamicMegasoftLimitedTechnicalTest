@@ -139,17 +139,17 @@ const TeacherCourse = () => {
     }
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e, teacherId) => {
     const { name, description } = updateCourseValidation(state);
     if (name || description) {
       setCourseError({ name, description });
     } else {
-      await dispatch(updateCourse(course._id, state));
+      await dispatch(updateCourse(course._id, state, teacherId));
     }
   };
 
-  const handleDelete = async (e) => {
-    await dispatch(deleteCourse(course._id));
+  const handleDelete = async (e, teacherId) => {
+    await dispatch(deleteCourse(course._id, teacherId));
   };
 
   // search debounce
@@ -300,7 +300,9 @@ const TeacherCourse = () => {
                               color: "#F7B217",
                               backgroundColor: "#eee",
                             }}
-                            onClick={handleUpdate}
+                            onClick={(e) =>
+                              handleUpdate(e, localStorageData?.user?.id)
+                            }
                           >
                             Confirm
                           </Button>
@@ -347,7 +349,9 @@ const TeacherCourse = () => {
                               color: "red",
                               backgroundColor: "#eee",
                             }}
-                            onClick={handleDelete}
+                            onClick={(e) =>
+                              handleDelete(e, localStorageData?.user?.id)
+                            }
                           >
                             Confirm
                           </Button>
@@ -398,8 +402,8 @@ const TeacherCourse = () => {
                               </Tr>
                             ))
                           : null
-                        : courses.length &&
-                          courses.map((c) => (
+                        : courses.length
+                        ? courses.map((c) => (
                             <Tr key={c._id}>
                               <Td>{c.name}</Td>
                               <Td>{c.description}</Td>
@@ -411,7 +415,8 @@ const TeacherCourse = () => {
                                 {c.status ? "Available" : "Unavailable"}
                               </Td>
                             </Tr>
-                          ))}
+                          ))
+                        : null}
                     </Tbody>
                   </Table>
                 </ViewWrapper>

@@ -7,6 +7,7 @@ import teacher from "./teacher";
 import student from "./student";
 import course from "./course";
 import registration from "./registration";
+import quiz from "./quiz";
 
 export default configureStore({
   reducer: {
@@ -17,5 +18,6 @@ export default configureStore({
     student,
     course,
     registration,
+    quiz,
   },
 });

@@ -4,6 +4,7 @@ const fs = require("fs");
 const User = require("../models/User");
 const tokenGenaration = require("../utilities/tokenGenaration");
 const uniqueId = require("../utilities/generateUniqueId");
+const { createLog } = require("../utilities/log");
 
 // add new user
 const signup = async (req, res) => {
@@ -26,6 +27,11 @@ const signup = async (req, res) => {
 
     const data = tokenGenaration(newUser);
 
+    await createLog(
+      newUser._id,
+      "Create user",
+      `Sign up successfulll by ${name} as role ${accountType}`
+    );
     res.status(201).json(data);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
@@ -68,6 +74,12 @@ const updateProfile = async (req, res) => {
       user.url = file ? url : user.url;
       user.isFirstLogin = false;
       user.userId = await uniqueId();
+
+      await createLog(
+        _id,
+        "Update profile first time",
+        `Update profile first time successfulll by ${user.name} as role ${user.role}`
+      );
     } else {
       if (file) {
         const pathName = user.url.replace(
@@ -87,6 +99,12 @@ const updateProfile = async (req, res) => {
           process.env.FOLDER +
           "/" +
           file.filename;
+
+        await createLog(
+          _id,
+          "Update Profle picture",
+          `Update Profle picture successfulll by ${user.name} as role ${user.role}`
+        );
       }
 
       user.name = name ? name : user.name;
@@ -104,6 +122,12 @@ const updateProfile = async (req, res) => {
 
     await user.save();
     const data = tokenGenaration(user);
+
+    await createLog(
+      _id,
+      "Update profile",
+      `Update profile successfulll by ${user.name} as role ${user.role}`
+    );
 
     res.status(200).json(data);
   } catch (error) {
@@ -145,9 +169,20 @@ const signupWithGoogle = async (req, res) => {
       });
 
       data = tokenGenaration(newUser);
+      await createLog(
+        _id,
+        "Signup with google",
+        `Signup with google successfulll by ${dataValues.name}`
+      );
       return res.status(201).json(data);
     } else {
       data = tokenGenaration(dataValues);
+
+      await createLog(
+        _id,
+        "Signin with google",
+        `Signin with google successfulll by ${dataValues.name}`
+      );
       return res.status(201).json(data);
     }
   } catch (error) {
@@ -174,6 +209,12 @@ const changePassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 12);
     user.password = hashedPassword;
     await user.save();
+
+    await createLog(
+      _id,
+      "Change password",
+      `Password change successfulll by ${user.name} as role ${user.role}`
+    );
 
     return res.status(200).json({ message: "Password changed successfull!" });
   } catch (error) {

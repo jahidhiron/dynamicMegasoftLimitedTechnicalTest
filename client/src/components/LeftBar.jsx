@@ -74,11 +74,18 @@ const LeftBar = () => {
               <LeftBarItem>Course</LeftBarItem>
             </NavLink>
             <NavLink
+              to="/create-quiz"
+              className={classes.leftBarLink}
+              onClick={handleContent}
+            >
+              <LeftBarItem>Create Quiz</LeftBarItem>
+            </NavLink>
+            <NavLink
               to="/take-quiz"
               className={classes.leftBarLink}
               onClick={handleContent}
             >
-              <LeftBarItem>Quiz</LeftBarItem>
+              <LeftBarItem>Take Quiz</LeftBarItem>
             </NavLink>
           </>
         )}

@@ -95,24 +95,24 @@ const Teacher = () => {
     await dispatch(getTeachers(pageSize, page + 1));
   };
 
-  const handleBannedTeacher = async (e, id) => {
-    await dispatch(bannedTeacher(id));
+  const handleBannedTeacher = async (e, id, adminId) => {
+    await dispatch(bannedTeacher(id, adminId));
 
     setTimeout(async () => {
       await dispatch(getTeachers(pageSize, teacher?.currentPage));
     }, 3000);
   };
 
-  const handleDeleteTeacher = async (e, id) => {
-    await dispatch(deleteTeacher(id));
+  const handleDeleteTeacher = async (e, id, adminId) => {
+    await dispatch(deleteTeacher(id, adminId));
 
     setTimeout(async () => {
       await dispatch(getTeachers(pageSize, teacher?.currentPage));
     }, 3000);
   };
 
-  const handleActiveTeacher = async (e, id) => {
-    await dispatch(activeTeacher(id));
+  const handleActiveTeacher = async (e, id, adminId) => {
+    await dispatch(activeTeacher(id, adminId));
 
     setTimeout(async () => {
       await dispatch(getTeachers(pageSize, teacher?.currentPage));
@@ -262,7 +262,11 @@ const Teacher = () => {
                                         color: "#F7B217",
                                       }}
                                       onClick={(e) =>
-                                        handleActiveTeacher(e, t._id)
+                                        handleActiveTeacher(
+                                          e,
+                                          t._id,
+                                          localStorageData?.user?.id
+                                        )
                                       }
                                     >
                                       Confirm
@@ -299,7 +303,11 @@ const Teacher = () => {
                                         color: "#F7B217",
                                       }}
                                       onClick={(e) =>
-                                        handleBannedTeacher(e, t._id)
+                                        handleBannedTeacher(
+                                          e,
+                                          t._id,
+                                          localStorageData?.user?.id
+                                        )
                                       }
                                     >
                                       Confirm
@@ -332,7 +340,11 @@ const Teacher = () => {
                                         color: "red",
                                       }}
                                       onClick={(e) =>
-                                        handleDeleteTeacher(e, t._id)
+                                        handleDeleteTeacher(
+                                          e,
+                                          t._id,
+                                          localStorageData?.user?.id
+                                        )
                                       }
                                     >
                                       Confirm

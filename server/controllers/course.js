@@ -1,18 +1,35 @@
 const Course = require("../models/Course");
+const User = require("../models/User");
+const { createLog } = require("../utilities/log");
 
 // add new course
 const createCourse = async (req, res) => {
   const { name, description, teacherId } = req.body;
 
   try {
-    const newCourse = await Course.create({
+    const course = await Course.findOne({ name, teacherId });
+    if (course) {
+      return res.status(404).json({ message: "Course already exist!" });
+    }
+
+    const newCourse = new Course({
       name,
       description,
       teacherId,
     });
 
+    await newCourse.save();
+    const teacher = await User.findById(teacherId);
+
+    await createLog(
+      newCourse.teacherId,
+      `Create course`,
+      `Course created successfulll by ${teacher.name} as role ${teacher.role}`
+    );
+
     res.status(201).json(newCourse);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Something went wrong!" });
   }
 };
@@ -21,6 +38,7 @@ const createCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
   const { id: _id } = req.params;
   const { name, description } = req.body;
+  const { teacherId } = req.query;
 
   try {
     const course = await Course.findById(_id);
@@ -32,6 +50,14 @@ const updateCourse = async (req, res) => {
     course.description = description ? description : course.description;
     await course.save();
 
+    const teacher = await User.findById(teacherId);
+
+    await createLog(
+      teacherId,
+      `Update course`,
+      `Update course successfulll by ${teacher.name} as role ${teacher.role}`
+    );
+
     res.status(200).json(course);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
@@ -41,6 +67,7 @@ const updateCourse = async (req, res) => {
 // delete existing course
 const deleteCourse = async (req, res) => {
   const { id: _id } = req.params;
+  const { teacherId } = req.query;
 
   try {
     Course.findByIdAndDelete(_id, (err, docs) => {
@@ -53,6 +80,14 @@ const deleteCourse = async (req, res) => {
         });
       }
     });
+
+    const teacher = await User.findById(teacherId);
+
+    await createLog(
+      teacherId,
+      `Delete course`,
+      `Delete course successfulll by ${teacher.name} as role ${teacher.role}`
+    );
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }

@@ -7,18 +7,7 @@ const Registration = require("../../models/Registration");
 const addRegistrationValidator = [
   check("name")
     .notEmpty()
-    .withMessage("You should provide a valid course name")
-    .trim()
-    .custom(async (name) => {
-      try {
-        const existingCourse = await Registration.findOne({ name });
-        if (existingCourse) {
-          throw createError("Course already exist!");
-        }
-      } catch (error) {
-        throw createError(error);
-      }
-    }),
+    .withMessage("You should provide a valid course name"),
 
   check("description")
     .notEmpty()

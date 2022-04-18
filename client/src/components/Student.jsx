@@ -95,24 +95,24 @@ const Student = () => {
     await dispatch(getStudents(pageSize, page + 1));
   };
 
-  const handleBannedStudent = async (e, id) => {
-    await dispatch(bannedStudent(id));
+  const handleBannedStudent = async (e, id, adminId) => {
+    await dispatch(bannedStudent(id, adminId));
 
     setTimeout(async () => {
       await dispatch(getStudents(pageSize, student?.currentPage));
     }, 3000);
   };
 
-  const handleDeleteStudent = async (e, id) => {
-    await dispatch(deleteStudent(id));
+  const handleDeleteStudent = async (e, id, adminId) => {
+    await dispatch(deleteStudent(id, adminId));
 
     setTimeout(async () => {
       await dispatch(getStudents(pageSize, student?.currentPage));
     }, 3000);
   };
 
-  const handleActiveStudent = async (e, id) => {
-    await dispatch(activeStudent(id));
+  const handleActiveStudent = async (e, id, adminId) => {
+    await dispatch(activeStudent(id, adminId));
 
     setTimeout(async () => {
       await dispatch(getStudents(pageSize, student?.currentPage));
@@ -262,7 +262,11 @@ const Student = () => {
                                         color: "#F7B217",
                                       }}
                                       onClick={(e) =>
-                                        handleActiveStudent(e, t._id)
+                                        handleActiveStudent(
+                                          e,
+                                          t._id,
+                                          localStorageData?.user?.id
+                                        )
                                       }
                                     >
                                       Confirm
@@ -299,7 +303,11 @@ const Student = () => {
                                         color: "#F7B217",
                                       }}
                                       onClick={(e) =>
-                                        handleBannedStudent(e, t._id)
+                                        handleBannedStudent(
+                                          e,
+                                          t._id,
+                                          localStorageData?.user?.id
+                                        )
                                       }
                                     >
                                       Confirm
@@ -332,7 +340,11 @@ const Student = () => {
                                         color: "red",
                                       }}
                                       onClick={(e) =>
-                                        handleDeleteStudent(e, t._id)
+                                        handleDeleteStudent(
+                                          e,
+                                          t._id,
+                                          localStorageData?.user?.id
+                                        )
                                       }
                                     >
                                       Confirm

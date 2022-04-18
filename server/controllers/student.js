@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { createLog } = require("../utilities/log");
 
 // get all students
 const getStudents = async (req, res) => {
@@ -162,6 +163,7 @@ const searchStudent = async (req, res) => {
 const banStudent = async (req, res) => {
   try {
     const { id: _id } = req.params;
+    const { adminId } = req.query;
 
     const student = await User.findById(_id);
     if (!student) {
@@ -170,6 +172,16 @@ const banStudent = async (req, res) => {
 
     student.isBan = !student.isBan;
     await student.save();
+
+    const adminUser = await User.findById(adminId);
+
+    await createLog(
+      adminId,
+      `${student.isBan ? "Ban" : "Unban"} student`,
+      `${student.isBan ? "Ban" : "Unban"} student successfulll by ${
+        adminUser.name
+      } as role ${adminUser.role}`
+    );
 
     res.status(200).json({
       message: `Student has been ${
@@ -186,6 +198,7 @@ const banStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
   try {
     const { id: _id } = req.params;
+    const { adminId } = req.query;
 
     User.findByIdAndDelete(_id, (err, docs) => {
       if (err) {
@@ -197,6 +210,14 @@ const deleteStudent = async (req, res) => {
         });
       }
     });
+
+    const adminUser = await User.findById(adminId);
+
+    await createLog(
+      adminId,
+      `Delete student`,
+      `Delete student successfulll by ${adminUser.name} as role ${adminUser.role}`
+    );
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
@@ -206,6 +227,7 @@ const deleteStudent = async (req, res) => {
 const activeStudent = async (req, res) => {
   try {
     const { id: _id } = req.params;
+    const { adminId } = req.query;
 
     const student = await User.findById(_id);
     if (!student) {
@@ -218,6 +240,14 @@ const activeStudent = async (req, res) => {
 
     student.status = "active";
     await student.save();
+
+    const adminUser = await User.findById(adminId);
+
+    await createLog(
+      adminId,
+      `Activate student`,
+      `Activate student successfulll by ${adminUser.name} as role ${adminUser.role}`
+    );
 
     res.status(200).json({
       message: `Student has been activated successully!`,

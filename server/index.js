@@ -12,6 +12,7 @@ const teacherRouter = require("./routes/teacher");
 const studentRouter = require("./routes/student");
 const courseRouter = require("./routes/course");
 const registrationRouter = require("./routes/registration");
+const quizRouter = require("./routes/quiz");
 
 const ALLOWED_ORIGIN_LIST = [
   process.env.ALLOWED_ORIGIN_1,
@@ -38,6 +39,7 @@ app.use("/teachers", teacherRouter);
 app.use("/students", studentRouter);
 app.use("/courses", courseRouter);
 app.use("/registrations", registrationRouter);
+app.use("/quizss", quizRouter);
 
 app.use((err, req, res, next) => {
   if (err) {

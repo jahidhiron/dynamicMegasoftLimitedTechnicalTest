@@ -92,11 +92,11 @@ export const getBanStudents = (page, size) => async (dispatch) => {
 };
 
 // action creator for banned student
-export const bannedStudent = (id) => async (dispatch) => {
+export const bannedStudent = (id, adminId) => async (dispatch) => {
   try {
     dispatch(bannedStudentStart());
 
-    const { data } = await api.bannedStudent(id);
+    const { data } = await api.bannedStudent(id, adminId);
 
     dispatch(bannedStudentSuccess(data));
   } catch (error) {
@@ -110,11 +110,11 @@ export const bannedStudent = (id) => async (dispatch) => {
 };
 
 // action creator for banned student
-export const activeStudent = (id) => async (dispatch) => {
+export const activeStudent = (id, adminId) => async (dispatch) => {
   try {
     dispatch(activeStudentStart());
 
-    const { data } = await api.activeStudent(id);
+    const { data } = await api.activeStudent(id, adminId);
 
     dispatch(activeStudentSuccess(data));
   } catch (error) {
@@ -128,11 +128,11 @@ export const activeStudent = (id) => async (dispatch) => {
 };
 
 // action creator for delete student
-export const deleteStudent = (id) => async (dispatch) => {
+export const deleteStudent = (id, adminId) => async (dispatch) => {
   try {
     dispatch(deleteStudentStart());
 
-    const { data } = await api.deleteStudent(id);
+    const { data } = await api.deleteStudent(id, adminId);
 
     dispatch(deleteStudentSuccess(data));
   } catch (error) {

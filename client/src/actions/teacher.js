@@ -92,11 +92,11 @@ export const getBanTeachers = (size, page) => async (dispatch) => {
 };
 
 // action creator for banned teacher
-export const bannedTeacher = (id) => async (dispatch) => {
+export const bannedTeacher = (id, adminId) => async (dispatch) => {
   try {
     dispatch(bannedTeacherStart());
 
-    const { data } = await api.bannedTeacher(id);
+    const { data } = await api.bannedTeacher(id, adminId);
 
     dispatch(bannedTeacherSuccess(data));
   } catch (error) {
@@ -110,11 +110,11 @@ export const bannedTeacher = (id) => async (dispatch) => {
 };
 
 // action creator for banned teacher
-export const activeTeacher = (id) => async (dispatch) => {
+export const activeTeacher = (id, adminId) => async (dispatch) => {
   try {
     dispatch(activeTeacherStart());
 
-    const { data } = await api.activeTeacher(id);
+    const { data } = await api.activeTeacher(id, adminId);
 
     dispatch(activeTeacherSuccess(data));
   } catch (error) {
@@ -128,11 +128,11 @@ export const activeTeacher = (id) => async (dispatch) => {
 };
 
 // action creator for delete teacher
-export const deleteTeacher = (id) => async (dispatch) => {
+export const deleteTeacher = (id, adminId) => async (dispatch) => {
   try {
     dispatch(deleteTeacherStart());
 
-    const { data } = await api.deleteTeacher(id);
+    const { data } = await api.deleteTeacher(id, adminId);
 
     dispatch(deleteTeacherSuccess(data));
   } catch (error) {

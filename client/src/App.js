@@ -17,6 +17,7 @@ import TeacherCourse from "../src/components/TeacherCourse";
 import StudentCourse from "../src/components/StudentCourse";
 import TakeQuiz from "../src/components/TakeQuiz";
 import GiveQuiz from "../src/components/GiveQuiz";
+import CreateQuiz from "../src/components/CreateQuiz";
 
 // root component
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="teacher-course" element={<TeacherCourse />} />
           <Route path="student-course" element={<StudentCourse />} />
+          <Route path="create-quiz" element={<CreateQuiz />} />
           <Route path="take-quiz" element={<TakeQuiz />} />
           <Route path="give-quiz" element={<GiveQuiz />} />
           <Route path="teacher" element={<Teacher />} />

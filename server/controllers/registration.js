@@ -1,8 +1,15 @@
 const Registration = require("../models/Registration");
+const User = require("../models/User");
+const { createLog } = require("../utilities/log");
 
 // add new registration
 const createRegistration = async (req, res) => {
   const { name, description, teacherId, studentId } = req.body;
+
+  const existingCourse = await Registration.findOne({ name, studentId });
+  if (existingCourse) {
+    throw createError("Course already exist!");
+  }
 
   try {
     const newRegistration = await Registration.create({
@@ -11,6 +18,14 @@ const createRegistration = async (req, res) => {
       teacherId,
       studentId,
     });
+
+    const student = await User.findById(studentId);
+
+    await createLog(
+      student,
+      `Course registration`,
+      `Course registration successfulll by ${student.name} as role ${student.role}`
+    );
 
     res.status(201).json(newRegistration);
   } catch (error) {

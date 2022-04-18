@@ -4,15 +4,15 @@ const mongoose = require("mongoose");
 
 const Course = require("../../models/Course");
 
-const addCourseValidator = [
+const addQuizValidator = [
   check("name")
     .notEmpty()
-    .withMessage("You should provide a valid course name")
+    .withMessage("You should provide a valid quiz name")
     .trim(),
 
   check("description")
     .notEmpty()
-    .withMessage("You should provide a valid course name")
+    .withMessage("You should provide a valid quiz description")
     .trim()
     .custom(async (description) => {
       try {
@@ -23,9 +23,34 @@ const addCourseValidator = [
         throw createError(error);
       }
     }),
+
+  check("quiz").custom(async (quiz) => {
+    quiz.map((q) => {
+      if (!q.question) {
+        throw createError("You should provide a valid quiz question!");
+      }
+      q.choice.map((c, i) => {
+        if (!c.firstChoice) {
+          throw createError("You have to fillup first choice!");
+        }
+        if (!c.firstChoice && (i === 1 || i === 2)) {
+          throw createError(
+            "You have to fillup first and second choice answer!"
+          );
+        }
+      });
+    });
+    try {
+      if (description.length < 20) {
+        throw createError("Course description must be 20 char long!");
+      }
+    } catch (error) {
+      throw createError(error);
+    }
+  }),
 ];
 
-const updateCourseValidator = [
+const updateQuizValidator = [
   param("id").custom(async (id) => {
     try {
       if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -62,7 +87,7 @@ const updateCourseValidator = [
   }),
 ];
 
-const deleteCourseValidator = [
+const deleteQuizValidator = [
   param("id").custom(async (id) => {
     try {
       if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -74,7 +99,7 @@ const deleteCourseValidator = [
   }),
 ];
 
-const getCourseValidator = [
+const getQuizValidator = [
   param("id").custom(async (id) => {
     try {
       if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -87,8 +112,8 @@ const getCourseValidator = [
 ];
 
 module.exports = {
-  addCourseValidator,
-  updateCourseValidator,
-  deleteCourseValidator,
-  getCourseValidator,
+  addQuizValidator,
+  updateQuizValidator,
+  deleteQuizValidator,
+  getQuizValidator,
 };

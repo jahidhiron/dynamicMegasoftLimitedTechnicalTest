@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { createLog } = require("../utilities/log");
 
 // get all teachers
 const getTeachers = async (req, res) => {
@@ -192,6 +193,7 @@ const searchTeacher = async (req, res) => {
 const banTeacher = async (req, res) => {
   try {
     const { id: _id } = req.params;
+    const { adminId } = req.query;
 
     const teacher = await User.findById(_id);
     if (!teacher) {
@@ -200,6 +202,16 @@ const banTeacher = async (req, res) => {
 
     teacher.isBan = !teacher.isBan;
     await teacher.save();
+
+    const adminUser = await User.findById(adminId);
+
+    await createLog(
+      adminId,
+      `${teacher.isBan ? "Ban" : "Unban"} teacher`,
+      `${teacher.isBan ? "Ban" : "Unban"} teacher successfulll by ${
+        adminUser.name
+      } as role ${adminUser.role}`
+    );
 
     res.status(200).json({
       message: `Teacher has been ${
@@ -216,6 +228,7 @@ const banTeacher = async (req, res) => {
 const deleteTeacher = async (req, res) => {
   try {
     const { id: _id } = req.params;
+    const { adminId } = req.query;
 
     User.findByIdAndDelete(_id, (err, docs) => {
       if (err) {
@@ -227,6 +240,14 @@ const deleteTeacher = async (req, res) => {
         });
       }
     });
+
+    const adminUser = await User.findById(adminId);
+
+    await createLog(
+      adminId,
+      `Delete teacher`,
+      `Delete teacher successfulll by ${adminUser.name} as role ${adminUser.role}`
+    );
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
@@ -236,6 +257,7 @@ const deleteTeacher = async (req, res) => {
 const activeTeacher = async (req, res) => {
   try {
     const { id: _id } = req.params;
+    const { adminId } = req.query;
 
     const teacher = await User.findById(_id);
     if (!teacher) {
@@ -248,6 +270,14 @@ const activeTeacher = async (req, res) => {
 
     teacher.status = "active";
     await teacher.save();
+
+    const adminUser = await User.findById(adminId);
+
+    await createLog(
+      adminId,
+      `Activate teacher`,
+      `Activate teacher successfulll by ${adminUser.name} as role ${adminUser.role}`
+    );
 
     res.status(200).json({
       message: `Teacher has been activated successully!`,
