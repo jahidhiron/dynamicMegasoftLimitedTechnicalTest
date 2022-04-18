@@ -6,6 +6,7 @@ const {
   getUser,
   changePassword,
   signupWithGoogle,
+  getActivityLog,
 } = require("../controllers/user");
 const {
   addUserValidator,
@@ -44,6 +45,8 @@ router.patch(
   validationResults,
   changePassword
 );
+
+router.get("/activity-log/:id", isAuthentication, getActivityLog);
 
 router.post("/signup-with-google", signupWithGoogle);
 

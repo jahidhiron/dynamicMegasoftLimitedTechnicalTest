@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const fs = require("fs");
 
 const User = require("../models/User");
+const Log = require("../models/Log");
 const tokenGenaration = require("../utilities/tokenGenaration");
 const uniqueId = require("../utilities/generateUniqueId");
 const { createLog } = require("../utilities/log");
@@ -222,10 +223,40 @@ const changePassword = async (req, res) => {
   }
 };
 
+const getActivityLog = async (req, res) => {
+  try {
+    const { id: userId } = req.params;
+
+    const { size, page } = req.query;
+    const pageNum = parseInt(page) || 1;
+    const limit = parseInt(size) || 10;
+
+    const totalLog = await Log.countDocuments({ userId });
+    const totalPage = Math.ceil(totalLog / limit);
+
+    const logs = await Log.find({ userId })
+      .sort({ _id: -1 })
+      .skip((pageNum - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    const data = {
+      logs,
+      currentPage: Number(pageNum),
+      totalPage,
+    };
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
 module.exports = {
   signup,
   updateProfile,
   signupWithGoogle,
   getUser,
   changePassword,
+  getActivityLog,
 };

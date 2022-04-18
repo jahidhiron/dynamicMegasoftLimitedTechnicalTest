@@ -23,6 +23,9 @@ export const updateProfile = (updatedUser, id) =>
 
 export const getUser = (id) => API.get(`/users/${id}`);
 
+export const getActivityLogs = (id, size, page) =>
+  API.get(`/users/activity-log/${id}?size=${size}&page=${page}`);
+
 export const changePassword = (id, state) =>
   API.patch(`/users/change-password/${id}`, state);
 

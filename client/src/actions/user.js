@@ -11,6 +11,9 @@ import {
   changePasswordStart,
   changePasswordSuccess,
   changePasswordFailure,
+  getActivityLogsStart,
+  getActivityLogsSuccess,
+  getActivityLogsFailure,
 } from "../reducers/user";
 import { authSuccess } from "../reducers/auth";
 import * as api from "../api";
@@ -106,5 +109,18 @@ export const signupWithGoogle = (newUser, navigate) => async (dispatch) => {
     const { email, password } = error?.response?.data?.errors;
 
     dispatch(addUserFailure({ email: email?.msg, password: password?.msg }));
+  }
+};
+
+// action creator for activity logs
+export const getActivityLogs = (id, size, page) => async (dispatch) => {
+  try {
+    dispatch(getActivityLogsStart());
+
+    const { data } = await api.getActivityLogs(id, size, page);
+
+    dispatch(getActivityLogsSuccess(data));
+  } catch (error) {
+    dispatch(getActivityLogsFailure({ message: "Something went wrong!" }));
   }
 };

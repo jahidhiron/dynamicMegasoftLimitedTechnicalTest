@@ -7,6 +7,7 @@ export const users = createSlice({
     user: {},
     errors: false,
     isSuccess: false,
+    activityLogs: [],
   },
   reducers: {
     // add user
@@ -71,6 +72,21 @@ export const users = createSlice({
       state.isSuccess = false;
       state.errors = action?.payload;
     },
+
+    // chnage password
+    getActivityLogsStart: (state) => {
+      state.isLoading = true;
+    },
+    getActivityLogsSuccess: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.activityLogs = action?.payload;
+    },
+    getActivityLogsFailure: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.errors = action?.payload;
+    },
   },
 });
 
@@ -87,6 +103,9 @@ export const {
   changePasswordStart,
   changePasswordSuccess,
   changePasswordFailure,
+  getActivityLogsStart,
+  getActivityLogsSuccess,
+  getActivityLogsFailure,
 } = users.actions;
 
 export default users.reducer;

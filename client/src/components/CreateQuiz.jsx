@@ -80,7 +80,6 @@ const CreateQuiz = () => {
 
   const handleSingleQuizChange = (e) => {
     if (e.target.name === "firstChoiceQuestion") {
-      console.log(e.target.value);
       setSingleQuiz((prev) => ({
         ...prev,
         firstChoice: { question: e.target.value },
@@ -234,10 +233,7 @@ const CreateQuiz = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("submitted");
   };
-
-  console.log(singleQuiz);
 
   return (
     <Container>
