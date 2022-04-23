@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import ClipLoader from "react-spinners/ClipLoader";
-import { GoogleLogin } from "react-google-login";
 
 import {
   Container,
@@ -15,10 +14,6 @@ import {
   Input,
   Label,
   Button,
-  Devider,
-  SignupWithGoogle,
-  GoogleText,
-  Image,
   PasswordWrapper,
   PasswordInput,
   AuthState,
@@ -28,7 +23,7 @@ import {
   AccountType,
 } from "../styles/Join.styles";
 import { signupValidation } from "../utilities/validations/join";
-import { signup, signupWithGoogle } from "../actions/user";
+import { signup } from "../actions/user";
 import { login } from "../actions/auth";
 
 const Join = () => {
@@ -106,18 +101,6 @@ const Join = () => {
         outline: errors[fieldName] && "red 2px solid",
       })
     : () => {};
-
-  const googleSuccess = (res) => {
-    const { email, googleId, name, imageUrl } = res?.profileObj;
-
-    if (email) {
-      dispatch(signupWithGoogle({ email, googleId, name, imageUrl }, navigate));
-    }
-  };
-
-  const googleFailure = () => {
-    // alert("Google Sign In was unsuccessful. Try again later");
-  };
 
   return (
     <Container data-testid="join">
@@ -261,21 +244,7 @@ const Join = () => {
               >
                 {isSignup ? "Signup & Join" : "Signin"}
               </Button>
-              <Devider />
             </Form>
-
-            <GoogleLogin
-              clientId="941476254173-b10p0mmrngfrkjie8e4h9d8dur7o3a9q.apps.googleusercontent.com"
-              render={(renderProps) => (
-                <SignupWithGoogle onClick={renderProps.onClick}>
-                  <Image src="https://img.icons8.com/color/30/000000/google-logo.png" />
-                  <GoogleText>Continue with Google</GoogleText>
-                </SignupWithGoogle>
-              )}
-              onSuccess={googleSuccess}
-              onFailure={googleFailure}
-              cookiePolicy="single_host_origin"
-            />
           </FormWrapper>
           <AuthState
             onClick={() => {
