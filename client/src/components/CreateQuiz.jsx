@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Container, MainContent } from "../styles/Home.styles";
 import {
@@ -13,43 +13,42 @@ import {
   Choice,
   Devider,
   AllQuestionContainer,
-  Error,
 } from "../styles/CreateQuiz.styles";
 import LeftBar from "../components/LeftBar";
 import ShowProfileFirstTime from "../components/ShowProfileFirstTime";
 
-const INITIAL_STATE = {
-  name: "",
-  description: "",
-  teacherId: "",
-  quiz: [
-    {
-      question: "",
-      choice: [
-        {
-          firstChoice: "",
-          answer: false,
-        },
-        {
-          secondChoice: "",
-          answer: false,
-        },
-        {
-          thirdChoice: "",
-          answer: "",
-        },
-        {
-          fourthChoice: "",
-          answer: "",
-        },
-        {
-          fifthChoice: "",
-          answer: "",
-        },
-      ],
-    },
-  ],
-};
+// const INITIAL_STATE = {
+//   name: "",
+//   description: "",
+//   teacherId: "",
+//   quiz: [
+//     {
+//       question: "",
+//       choice: [
+//         {
+//           firstChoice: "",
+//           answer: false,
+//         },
+//         {
+//           secondChoice: "",
+//           answer: false,
+//         },
+//         {
+//           thirdChoice: "",
+//           answer: "",
+//         },
+//         {
+//           fourthChoice: "",
+//           answer: "",
+//         },
+//         {
+//           fifthChoice: "",
+//           answer: "",
+//         },
+//       ],
+//     },
+//   ],
+// };
 
 const SINGLE_QUIZ = {
   question: "",
@@ -216,7 +215,6 @@ const CreateQuiz = () => {
   };
 
   const localStorageData = JSON.parse(localStorage.getItem("profile"));
-  const [state, setState] = useState([INITIAL_STATE]);
   const [questionsSet, setQuestionsSet] = useState(NewQuestion(1));
   const [questionNo, setQuestionNo] = useState(2);
 

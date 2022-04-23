@@ -57,6 +57,7 @@ const Join = () => {
     } else if (auth?.errors) {
       setErrors({ ...errors, email: auth?.errors?.email });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.errors, auth.errors]);
 
   const handleChange = (event) => {
@@ -225,27 +226,27 @@ const Join = () => {
                 <>
                   <Label>Select your account category</Label>
                   <RadioWrapper>
-                    <AccountType>Student</AccountType>
                     <Radio
                       type="radio"
                       name="accountType"
                       value="student"
                       onChange={handleChange}
                     />
-                    <AccountType>Teacher</AccountType>
+                    <AccountType>Student</AccountType>
                     <Radio
                       type="radio"
                       name="accountType"
                       value="teacher"
                       onChange={handleChange}
                     />
-                    <AccountType>Admin</AccountType>
+                    <AccountType>Teacher</AccountType>
                     <Radio
                       type="radio"
                       name="accountType"
                       value="admin"
                       onChange={handleChange}
                     />
+                    <AccountType>Admin</AccountType>
                   </RadioWrapper>
                   {errors?.accountType && <Error>{errors?.accountType}</Error>}
                   {/* {user.errors?.accountType && (

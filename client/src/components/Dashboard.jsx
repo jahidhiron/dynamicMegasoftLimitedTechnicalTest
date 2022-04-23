@@ -71,6 +71,7 @@ const Dashboard = () => {
     if (localStorageData?.user.role === "teacher") {
       dispatch(getRegistrations(localStorageData?.user?.id, ""));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // after first load

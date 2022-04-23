@@ -95,3 +95,12 @@ export const Label = styled.label`
   margin-right: 10px;
   margin-left: 10px;
 `;
+
+export const Title = styled.span`
+  font-size: 30px;
+  color: var(--main-color);
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  display: block;
+`;

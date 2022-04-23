@@ -1,6 +1,7 @@
 const Registration = require("../models/Registration");
 const User = require("../models/User");
 const { createLog } = require("../utilities/log");
+const generateDateAndTime = require("../utilities/generateCurrentDateTime");
 
 // add new registration
 const createRegistration = async (req, res) => {
@@ -24,7 +25,9 @@ const createRegistration = async (req, res) => {
     await createLog(
       student,
       `Course registration`,
-      `Course registration successfulll by ${student.name} as role ${student.role}`
+      `Course registration successfulll by ${student.name} as role ${
+        student.role
+      } at ${generateDateAndTime()}`
     );
 
     res.status(201).json(newRegistration);

@@ -63,9 +63,7 @@ const TeacherCourse = () => {
     isUpdateCourseSuccess,
     isUpdateCourseError,
     isDeleteCourseSuccess,
-    isDeleteCourseError,
     searchCourseData,
-    isSearchCourseSuccess,
   } = useSelector((state) => state.course);
   const [state, setState] = useState(INITIAL_COURSE);
   const localStorageData = JSON.parse(localStorage.getItem("profile"));
@@ -74,12 +72,14 @@ const TeacherCourse = () => {
 
   useEffect(() => {
     dispatch(getCourses(localStorageData?.user?.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (isGetCourseSuccess) {
       setState({ name: course.name, description: course.description });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGetCourseSuccess]);
 
   useEffect(() => {
@@ -93,6 +93,7 @@ const TeacherCourse = () => {
         description: iscreateCourseError?.description,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [iscreateCourseSuccess, iscreateCourseError]);
 
   useEffect(() => {
@@ -106,6 +107,7 @@ const TeacherCourse = () => {
         description: isUpdateCourseError?.description,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdateCourseSuccess, isUpdateCourseError]);
 
   useEffect(() => {
@@ -114,10 +116,15 @@ const TeacherCourse = () => {
       setState(INITIAL_COURSE);
       dispatch(getCourses(localStorageData?.user?.id));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDeleteCourseSuccess]);
 
   const handleChange = (e) => {
-    setState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+      teacherId: localStorageData?.user?.id,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -169,6 +176,7 @@ const TeacherCourse = () => {
     await dispatch(searchCourse(value, localStorageData?.user.id));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const optimizedFn = useCallback(debounce(handleSearchText), []);
 
   return (

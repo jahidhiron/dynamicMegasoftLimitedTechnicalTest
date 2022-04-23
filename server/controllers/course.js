@@ -1,6 +1,7 @@
 const Course = require("../models/Course");
 const User = require("../models/User");
 const { createLog } = require("../utilities/log");
+const generateDateAndTime = require("../utilities/generateCurrentDateTime");
 
 // add new course
 const createCourse = async (req, res) => {
@@ -24,11 +25,14 @@ const createCourse = async (req, res) => {
     await createLog(
       newCourse.teacherId,
       `Create course`,
-      `Course created successfulll by ${teacher.name} as role ${teacher.role}`
+      `Course created successfulll by ${teacher.name} as role ${
+        teacher.role
+      } at ${generateDateAndTime()}`
     );
 
     res.status(201).json(newCourse);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Something went wrong!" });
   }
 };
@@ -54,7 +58,9 @@ const updateCourse = async (req, res) => {
     await createLog(
       teacherId,
       `Update course`,
-      `Update course successfulll by ${teacher.name} as role ${teacher.role}`
+      `Update course successfulll by ${teacher.name} as role ${
+        teacher.role
+      } at ${generateDateAndTime()}`
     );
 
     res.status(200).json(course);
@@ -85,7 +91,9 @@ const deleteCourse = async (req, res) => {
     await createLog(
       teacherId,
       `Delete course`,
-      `Delete course successfulll by ${teacher.name} as role ${teacher.role}`
+      `Delete course successfulll by ${teacher.name} as role ${
+        teacher.role
+      } at ${generateDateAndTime()}`
     );
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
@@ -117,7 +125,7 @@ const getCourses = async (req, res) => {
     if (teacherId !== "undefined") {
       courses = await Course.find({ teacherId });
     } else {
-      courses = await Course.find({});
+      courses = await Course.find({}).populate("teacherId");
     }
 
     res.status(200).json(courses);

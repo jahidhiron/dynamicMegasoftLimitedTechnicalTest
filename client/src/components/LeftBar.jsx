@@ -17,7 +17,7 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 const LeftBar = () => {
   const locaStorageData = JSON.parse(localStorage.getItem("profile"));
   const { style } = useSelector((state) => state.style);
-  const { _, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const dispatch = useDispatch();
 
   const handleContent = () => {

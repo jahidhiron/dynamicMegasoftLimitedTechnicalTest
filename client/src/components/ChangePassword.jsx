@@ -57,7 +57,7 @@ const ChangePassword = () => {
         <>
           <LeftBar />
           <MainContent toggle={style.sidebar}>
-            {user?.isSuccess && (
+            {user?.isChangePasswordSuccess && (
               <FlashMessage duration={5000} persistOnHover={true}>
                 <p style={{ color: "green", textAlign: "center" }}>
                   Password has changed successfully!
@@ -77,8 +77,8 @@ const ChangePassword = () => {
                     onChange={handleChange}
                   />
                   {errors?.oldPassword && <Error>{errors?.oldPassword}</Error>}
-                  {user?.errors?.oldPassword && (
-                    <Error>{user?.errors?.oldPassword}</Error>
+                  {user?.isChangePasswordError && (
+                    <Error>{user?.isChangePasswordError?.oldPassword}</Error>
                   )}
                 </InputWrapper>
 

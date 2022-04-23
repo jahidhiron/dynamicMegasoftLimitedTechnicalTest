@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { createLog } = require("../utilities/log");
+const generateDateAndTime = require("../utilities/generateCurrentDateTime");
 
 // get all teachers
 const getTeachers = async (req, res) => {
@@ -208,9 +209,11 @@ const banTeacher = async (req, res) => {
     await createLog(
       adminId,
       `${teacher.isBan ? "Ban" : "Unban"} teacher`,
-      `${teacher.isBan ? "Ban" : "Unban"} teacher successfulll by ${
-        adminUser.name
-      } as role ${adminUser.role}`
+      `${teacher.isBan ? "Ban" : "Unban"} teacher [${
+        teacher.name
+      }] successfulll by ${adminUser.name} as role ${
+        adminUser.role
+      } at ${generateDateAndTime()}`
     );
 
     res.status(200).json({
@@ -225,29 +228,30 @@ const banTeacher = async (req, res) => {
 };
 
 // delete teacher
-const deleteTeacher = async (req, res) => {
+const deleteTeacher = (req, res) => {
   try {
     const { id: _id } = req.params;
     const { adminId } = req.query;
 
-    User.findByIdAndDelete(_id, (err, docs) => {
+    User.findByIdAndDelete(_id, async (err, docs) => {
       if (err) {
         return res.status(404).json({ message: "No teacher data found!" });
       } else {
+        const adminUser = await User.findById(adminId);
+
+        await createLog(
+          adminId,
+          `Delete teacher`,
+          `Delete teacher [${docs.name}]  successfulll by ${
+            adminUser.name
+          } as role ${adminUser.role} at ${generateDateAndTime()}`
+        );
         res.status(200).json({
           message: `Teacher has been deleted successully!`,
           deleteStatus: true,
         });
       }
     });
-
-    const adminUser = await User.findById(adminId);
-
-    await createLog(
-      adminId,
-      `Delete teacher`,
-      `Delete teacher successfulll by ${adminUser.name} as role ${adminUser.role}`
-    );
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
@@ -276,7 +280,9 @@ const activeTeacher = async (req, res) => {
     await createLog(
       adminId,
       `Activate teacher`,
-      `Activate teacher successfulll by ${adminUser.name} as role ${adminUser.role}`
+      `Activate teacher [${teacher.name}] successfulll by ${
+        adminUser.name
+      } as role ${adminUser.role} at ${generateDateAndTime()}`
     );
 
     res.status(200).json({

@@ -4,9 +4,12 @@ export const users = createSlice({
   name: "user",
   initialState: {
     isLoading: false,
+    isChangePasswordLoading: false,
     user: {},
     errors: false,
     isSuccess: false,
+    isChangePasswordSuccess: false,
+    isChangePasswordError: false,
     activityLogs: [],
   },
   reducers: {
@@ -64,13 +67,15 @@ export const users = createSlice({
     },
     changePasswordSuccess: (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isChangePasswordLoading = true;
+      state.isChangePasswordSuccess = true;
+      state.isChangePasswordError = false;
       state.user = action?.payload;
     },
     changePasswordFailure: (state, action) => {
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.errors = action?.payload;
+      state.isChangePasswordLoading = false;
+      state.isChangePasswordSuccess = false;
+      state.isChangePasswordError = action?.payload;
     },
 
     // chnage password

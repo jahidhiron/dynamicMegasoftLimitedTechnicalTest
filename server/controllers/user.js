@@ -6,6 +6,7 @@ const Log = require("../models/Log");
 const tokenGenaration = require("../utilities/tokenGenaration");
 const uniqueId = require("../utilities/generateUniqueId");
 const { createLog } = require("../utilities/log");
+const generateDateAndTime = require("../utilities/generateCurrentDateTime");
 
 // add new user
 const signup = async (req, res) => {
@@ -31,7 +32,7 @@ const signup = async (req, res) => {
     await createLog(
       newUser._id,
       "Create user",
-      `Sign up successfulll by ${name} as role ${accountType}`
+      `Sign up successfulll by ${name} as role ${accountType} at ${generateDateAndTime()}`
     );
     res.status(201).json(data);
   } catch (error) {
@@ -79,7 +80,9 @@ const updateProfile = async (req, res) => {
       await createLog(
         _id,
         "Update profile first time",
-        `Update profile first time successfulll by ${user.name} as role ${user.role}`
+        `Update profile first time successfulll by ${user.name} as role ${
+          user.role
+        } at ${generateDateAndTime()}`
       );
     } else {
       if (file) {
@@ -104,7 +107,9 @@ const updateProfile = async (req, res) => {
         await createLog(
           _id,
           "Update Profle picture",
-          `Update Profle picture successfulll by ${user.name} as role ${user.role}`
+          `Update Profle picture successfulll by ${user.name} as role ${
+            user.role
+          } at ${generateDateAndTime()}`
         );
       }
 
@@ -127,7 +132,9 @@ const updateProfile = async (req, res) => {
     await createLog(
       _id,
       "Update profile",
-      `Update profile successfulll by ${user.name} as role ${user.role}`
+      `Update profile successfulll by ${user.name} as role ${
+        user.role
+      } at ${generateDateAndTime()}`
     );
 
     res.status(200).json(data);
@@ -182,7 +189,9 @@ const signupWithGoogle = async (req, res) => {
       await createLog(
         _id,
         "Signin with google",
-        `Signin with google successfulll by ${dataValues.name}`
+        `Signin with google successfulll by ${
+          dataValues.name
+        } at ${generateDateAndTime()}`
       );
       return res.status(201).json(data);
     }
@@ -214,7 +223,9 @@ const changePassword = async (req, res) => {
     await createLog(
       _id,
       "Change password",
-      `Password change successfulll by ${user.name} as role ${user.role}`
+      `Password change successfulll by ${user.name} as role ${
+        user.role
+      } at ${generateDateAndTime()}`
     );
 
     return res.status(200).json({ message: "Password changed successfull!" });

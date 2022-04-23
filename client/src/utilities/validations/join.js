@@ -31,6 +31,7 @@ export const signupValidation = ({
   });
 
   // check name contain special character
+  // eslint-disable-next-line no-useless-escape
   const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
   let specialError = false;
   specialError = specialChars.test(name);

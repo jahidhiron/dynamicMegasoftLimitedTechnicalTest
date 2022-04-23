@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { createLog } = require("../utilities/log");
+const generateDateAndTime = require("../utilities/generateCurrentDateTime");
 
 // get all students
 const getStudents = async (req, res) => {
@@ -178,9 +179,11 @@ const banStudent = async (req, res) => {
     await createLog(
       adminId,
       `${student.isBan ? "Ban" : "Unban"} student`,
-      `${student.isBan ? "Ban" : "Unban"} student successfulll by ${
-        adminUser.name
-      } as role ${adminUser.role}`
+      `${student.isBan ? "Ban" : "Unban"} student [${
+        student.name
+      }] successfulll by ${adminUser.name} as role ${
+        adminUser.role
+      } at ${generateDateAndTime()}`
     );
 
     res.status(200).json({
@@ -200,24 +203,25 @@ const deleteStudent = async (req, res) => {
     const { id: _id } = req.params;
     const { adminId } = req.query;
 
-    User.findByIdAndDelete(_id, (err, docs) => {
+    User.findByIdAndDelete(_id, async (err, docs) => {
       if (err) {
         return res.status(404).json({ message: "No student data found!" });
       } else {
+        const adminUser = await User.findById(adminId);
+
+        await createLog(
+          adminId,
+          `Delete student`,
+          `Delete student [${docs.name}] successfulll by ${
+            adminUser.name
+          } as role ${adminUser.role} at ${generateDateAndTime()}`
+        );
         res.status(200).json({
           message: `Student has been deleted successully!`,
           deleteStatus: true,
         });
       }
     });
-
-    const adminUser = await User.findById(adminId);
-
-    await createLog(
-      adminId,
-      `Delete student`,
-      `Delete student successfulll by ${adminUser.name} as role ${adminUser.role}`
-    );
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
@@ -246,7 +250,9 @@ const activeStudent = async (req, res) => {
     await createLog(
       adminId,
       `Activate student`,
-      `Activate student successfulll by ${adminUser.name} as role ${adminUser.role}`
+      `Activate student [${student.name}] successfulll by ${
+        adminUser.name
+      } as role ${adminUser.role} at ${generateDateAndTime()}`
     );
 
     res.status(200).json({

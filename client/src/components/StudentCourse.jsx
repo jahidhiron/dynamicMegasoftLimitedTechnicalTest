@@ -33,7 +33,7 @@ const StudentCourse = () => {
   const [error, setError] = useState("");
   const localStorageData = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
-  const { courses, course, isGetCourseSuccess, isGetCourseError } = useSelector(
+  const { courses, course, isGetCourseSuccess } = useSelector(
     (state) => state.course
   );
 
@@ -55,6 +55,7 @@ const StudentCourse = () => {
         courseId: course._id,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGetCourseSuccess]);
 
   const handleLoadData = async (e) => {
@@ -107,7 +108,7 @@ const StudentCourse = () => {
                   {courses?.length &&
                     courses.map((c) => (
                       <Option value={c._id} key={c._id}>
-                        {c.name}
+                        {c.name} - {c.teacherId.name}
                       </Option>
                     ))}
                 </Select>

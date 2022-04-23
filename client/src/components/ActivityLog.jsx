@@ -33,6 +33,7 @@ const ActivityLog = () => {
 
   useEffect(() => {
     dispatch(getActivityLogs(localStorageData?.user?.id, 10, 1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -77,6 +78,7 @@ const ActivityLog = () => {
         <>
           <LeftBar />
           <MainContent>
+            <Title>Activity Logs</Title>
             <ViewWrapper>
               <Table>
                 <Thead>

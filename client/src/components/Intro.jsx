@@ -15,7 +15,7 @@ const Intro = () => {
         <Image src={baner} />
       </IntroLeft>
       <IntroRight>
-        <IntroTitle>Millions of user &amp; making Transections</IntroTitle>
+        <IntroTitle>Millions of user &amp; making Interaction</IntroTitle>
         <IntroDesc>An online platform that connects the world's user</IntroDesc>
       </IntroRight>
     </Container>

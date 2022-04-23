@@ -279,7 +279,7 @@ const Teacher = () => {
                                 trigger={
                                   <Block
                                     style={{
-                                      color: "#F7B217",
+                                      color: !t.isBan ? "green" : "#F7B217",
                                       marginRight: "15px",
                                     }}
                                   />
