@@ -7,12 +7,12 @@ git clone git@github.com:jahidhiron/dynamicMegasoftLimitedTechnicalTest.git
 
 ## backend server
 
-cd server
-yarn
+cd server\
+yarn\
 yarn dev
 
 ## frontend
 
-cd client
-yarn
+cd client\
+yarn\
 yarn start
