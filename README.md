@@ -1,3 +1,6 @@
+# Live Project
+https://smart-schools.netlify.app/
+
 # Run bellow command
 
 git clone git@github.com:jahidhiron/dynamicMegasoftLimitedTechnicalTest.git
